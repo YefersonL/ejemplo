@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Registro Simple</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            box-sizing: border-box; /* Asegura que el padding no afecte el ancho total */
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+         input[type="text"]:focus,
+         input[type="email"]:focus,
+         input[type="number"]:focus {
+             border-color: #007bff;
+             outline: none;
+             box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+         }
+        button {
+            background-color: #28a745; /* Verde */
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 18px;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #218838; /* Verde más oscuro al pasar el mouse */
+        }
+        button:active {
+             background-color: #1e7e34; /* Verde aún más oscuro al hacer clic */
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Registrar Nuevo Usuario</h1>
+
+    <form action="/guardar-datos" method="post">
+
+        <div class="form-group">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required placeholder="Ingresa el nombre">
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required placeholder="Ingresa el email">
+        </div>
+
+        <div class="form-group">
+            <label for="edad">Edad:</label>
+            <input type="number" id="edad" name="edad" placeholder="Ingresa la edad (opcional)">
+        </div>
+
+        <button type="submit">Registrar Usuario</button>
+
+    </form>
+</div>
+
+</body>
+</html>
