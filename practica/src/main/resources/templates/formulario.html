@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulario de Registro Simple</title>
+    <title>Formulario de Registro de platos</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -37,7 +37,7 @@
             color: #555;
         }
         input[type="text"],
-        input[type="email"],
+        input[type="text"],
         input[type="number"] {
             width: 100%;
             padding: 10px;
@@ -47,7 +47,7 @@
             font-size: 16px;
         }
          input[type="text"]:focus,
-         input[type="email"]:focus,
+         input[type="text"]:focus,
          input[type="number"]:focus {
              border-color: #007bff;
              outline: none;
@@ -75,26 +75,26 @@
 <body>
 
 <div class="container">
-    <h1>Registrar Nuevo Usuario</h1>
+    <h1>Registrar Nuevo Plato</h1>
 
     <form action="/guardar-datos" method="post">
 
         <div class="form-group">
-            <label for="nombre">Nombre:</label>
-            <input type="text" id="nombre" name="nombre" required placeholder="Ingresa el nombre">
+            <label for="Nombre_Plato">Nombre Plato:</label>
+            <input type="text" id="Nombre_Plato" name="Nombre_Plato" required placeholder="Ingresa el Nombre del plato">
         </div>
 
         <div class="form-group">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required placeholder="Ingresa el email">
+            <label for="Descripcion">Descripcion:</label>
+            <input type="text" id="Descripcion" name="Descripcion" required placeholder="Ingresa la descripcion">
         </div>
 
         <div class="form-group">
-            <label for="edad">Edad:</label>
-            <input type="number" id="edad" name="edad" placeholder="Ingresa la edad (opcional)">
+            <label for="Precio">Precio:</label>
+            <input type="number" id="Precio" name="Precio" placeholder="Ingresa el precio">
         </div>
 
-        <button type="submit">Registrar Usuario</button>
+        <button type="submit">Registrar plato</button>
 
     </form>
 </div>

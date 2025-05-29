@@ -1,7 +1,7 @@
 package com.practica.practica.controller;
 
-import com.practica.practica.model.UsuarioRegistroDTO; // Importa el DTO
-import com.practica.practica.service.UsuarioService; // Importa el Service
+import com.practica.practica.model.PlatoRegistroDTO; // Importa el DTO
+import com.practica.practica.service.PlatoService; // Importa el Service
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model; // Importa Model si necesitas pasar datos a la plantilla
@@ -10,13 +10,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller // Seguimos usando @Controller porque devolvemos nombres de vistas/redirecciones
-public class UsuarioController {
+public class PlatoController {
 
-    private final UsuarioService usuarioService;
+    private final PlatoService PlatoService;
 
     @Autowired // Inyección de dependencias por constructor
-    public UsuarioController(UsuarioService usuarioService) {
-        this.usuarioService = usuarioService;
+    public PlatoController(PlatoService PlatoService) {
+        this.PlatoService = PlatoService;
     }
 
     // --- MÉTODO PARA MOSTRAR EL FORMULARIO (GET) ---
@@ -24,7 +24,7 @@ public class UsuarioController {
     @GetMapping("/")
     public String mostrarFormulario(Model model) {
         // Opcional: Si usas Thymeleaf y necesitas enlazar el formulario a un objeto vacío al inicio
-        // model.addAttribute("usuario", new UsuarioRegistroDTO());
+        // model.addAttribute("Plato", new PlatoRegistroDTO());
         System.out.println("Sirviendo formulario.html desde templates");
         // Retorna el nombre de la plantilla (Spring buscará src/main/resources/templates/formulario.html)
         return "formulario";
@@ -33,15 +33,15 @@ public class UsuarioController {
     // --- MÉTODO PARA MANEJAR LA PETICIÓN POST DEL FORMULARIO ---
     // Mapea la URL de acción de tu formulario HTML
     @PostMapping("/guardar-datos")
-    public String registrarUsuario(@ModelAttribute UsuarioRegistroDTO datosFormulario) {
+    public String registrarPlato(@ModelAttribute PlatoRegistroDTO datosFormulario) {
         System.out.println("Datos recibidos del formulario en POST:");
-        System.out.println("Nombre: " + datosFormulario.getNombre());
-        System.out.println("Email: " + datosFormulario.getEmail());
-        System.out.println("Edad: " + datosFormulario.getEdad());
+        System.out.println("Nombre_Plato: " + datosFormulario.getNombre_Plato());
+        System.out.println("Descripcion: " + datosFormulario.getDescripcion());
+        System.out.println("Precio: " + datosFormulario.getPrecio());
 
         try {
             // Lógica de negocio para guardar
-            usuarioService.registrarNuevoUsuario(datosFormulario);
+            PlatoService.registrarNuevoPlato(datosFormulario);
 
             // --- REDIRECCIÓN A LA PÁGINA DE ÉXITO ---
             // Usamos "redirect:/URL" para indicarle al navegador que haga una nueva petición GET
