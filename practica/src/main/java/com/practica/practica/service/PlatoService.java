@@ -1,40 +1,73 @@
 package com.practica.practica.service;
 
 import com.practica.practica.model.Plato;
-import com.practica.practica.model.PlatoRegistroDTO; // Importa el DTO
-import com.practica.practica.repository.PlatoRepository; // Importa el Repository
-import org.springframework.beans.factory.annotation.Autowired; // Importa Autowired si lo prefieres
+import com.practica.practica.model.PlatoRegistroDTO;
+import com.practica.practica.repository.PlatoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service // Indica que esta clase es un componente de Servicio gestionado por Spring
+import java.util.List;
+import java.util.Optional;
+
+@Service
 public class PlatoService {
 
-    private final PlatoRepository PlatoRepository; // Declara la dependencia al Repository
+    private final PlatoRepository platoRepository;
 
-    // Inyección de Dependencias por Constructor (forma recomendada)
-    // Spring detectará este constructor y le inyectará la instancia del Repository
-    @Autowired // Opcional si solo hay un constructor, pero aclara la intención
-    public PlatoService(PlatoRepository PlatoRepository) {
-        this.PlatoRepository = PlatoRepository;
+    @Autowired
+    public PlatoService(PlatoRepository platoRepository) {
+        this.platoRepository = platoRepository;
     }
 
-    // Método para manejar la lógica de registrar un nuevo Plato
     public Plato registrarNuevoPlato(PlatoRegistroDTO datosRegistro) {
-        // --- Aquí va la lógica de negocio ---
-        // 1. Podrías añadir validaciones aquí (ej: si el Descripcion ya existe usando un método findByDescripcion en el Repository)
-        // 2. Mapear el DTO a la Entidad Plato
         Plato nuevoPlato = new Plato();
-        nuevoPlato.setNombre_Plato(datosRegistro.getNombre_Plato());
+        nuevoPlato.setNombre_Plato(datosRegistro.getNombrePlato());
         nuevoPlato.setDescripcion(datosRegistro.getDescripcion());
         nuevoPlato.setPrecio(datosRegistro.getPrecio());
-        // 3. Podrías realizar otras operaciones (ej: encriptar una contraseña si la hubiera)
+        // `categoria` y `disponible` fueron eliminados
 
-        // 4. Llamar al Repository para guardar la Entidad en la base de datos
-        // El método save() inserta si el ID es null, o actualiza si el ID existe
-        return PlatoRepository.save(nuevoPlato);
+        return platoRepository.save(nuevoPlato);
     }
 
-    // Puedes añadir otros métodos aquí para otras operaciones relacionadas con Platos
-    // public List<Plato> obtenerTodosPlatos() { ... }
-    // public Optional<Plato> obtenerPlatoPorId(Long id) { ... }
+    public List<Plato> obtenerTodosLosPlatos() {
+        return platoRepository.findAll();
+    }
+
+    public boolean eliminarPlatoPorId(Long id) {
+        if (platoRepository.existsById(id)) {
+            platoRepository.deleteById(id);
+            return true;
+        }
+        return false;
+    }
+
+    // Método para obtener un plato por ID (ya lo teníamos, ¡es clave para editar!)
+    public Optional<Plato> obtenerPlatoPorId(Long id) {
+        return platoRepository.findById(id);
+    }
+
+    // --- NUEVO MÉTODO PARA ACTUALIZAR ---
+    // Usaremos el mismo DTO de registro para recibir los datos actualizados
+    // y luego actualizaremos el objeto Plato existente.
+    public Plato actualizarPlato(Long id, PlatoRegistroDTO datosActualizacion) {
+        // 1. Buscar el plato existente por su ID
+        Optional<Plato> platoExistenteOptional = platoRepository.findById(id);
+
+        if (platoExistenteOptional.isPresent()) {
+            Plato platoExistente = platoExistenteOptional.get();
+
+            // 2. Actualizar los campos del plato existente con los datos del DTO
+            platoExistente.setNombre_Plato(datosActualizacion.getNombrePlato());
+            platoExistente.setDescripcion(datosActualizacion.getDescripcion());
+            platoExistente.setPrecio(datosActualizacion.getPrecio());
+            // No hay `categoria` ni `disponible`
+
+            // 3. Guardar (actualizar) el plato en la base de datos
+            return platoRepository.save(platoExistente);
+        } else {
+            // Manejar el caso donde el plato no se encuentra (lanzar excepción, retornar null, etc.)
+            // Por simplicidad, aquí retornamos null. En un caso real, podrías lanzar una `ResourceNotFoundException`.
+            return null;
+        }
+    }
 }

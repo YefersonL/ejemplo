@@ -1,50 +1,49 @@
 package com.practica.practica.model;
 
-// Esta clase es un objeto simple para transferir datos desde el formulario HTML
-// No necesita anotaciones de JPA (@Entity, @Id, etc.)
-
 public class PlatoRegistroDTO {
 
-    // Los Nombre_Platos de los campos deben coincidir con los atributos 'name' en los inputs de tu HTML
-    private String Nombre_Plato;
-    private String Descripcion;
-    private double Precio; // Usa el mismo tipo que en la Entidad
+    private String nombrePlato;
+    private String descripcion;
+    private double precio;
+    // private String categoria; // Eliminado previamente
+    // private boolean disponible; // ¡Ahora eliminado!
 
-    // --- Constructores ---
     public PlatoRegistroDTO() {
     }
 
-    public PlatoRegistroDTO(String Nombre_Plato, String Descripcion, double Precio) {
-        this.Nombre_Plato = Nombre_Plato;
-        this.Descripcion = Descripcion;
-        this.Precio = Precio;
+    // Constructor actualizado sin 'categoria' ni 'disponible'
+    public PlatoRegistroDTO(String nombrePlato, String descripcion, double precio) {
+        this.nombrePlato = nombrePlato;
+        this.descripcion = descripcion;
+        this.precio = precio;
     }
 
-
-    // --- Getters y Setters (Necesarios para que Spring pueda mapear los datos del formulario) ---
-    public String getNombre_Plato() {
-        return Nombre_Plato;
+    // Getters y Setters
+    public String getNombrePlato() {
+        return nombrePlato;
     }
 
-    public void setNombre_Plato(String Nombre_Plato) {
-        this.Nombre_Plato = Nombre_Plato;
+    public void setNombrePlato(String nombrePlato) {
+        this.nombrePlato = nombrePlato;
     }
 
     public String getDescripcion() {
-        return Descripcion;
+        return descripcion;
     }
 
-    public void setDescripcion(String Descripcion) {
-        this.Descripcion = Descripcion;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
     public double getPrecio() {
-        return Precio;
+        return precio;
     }
 
-    public void setPrecio(double Precio) {
-        this.Precio = Precio;
+    public void setPrecio(double precio) {
+        this.precio = precio;
     }
 
-    // Opcional: toString()
+    // Métodos get/set de categoria y disponible ¡Eliminados!
+    // public boolean isDisponible() { /* ... */ }
+    // public void setDisponible(boolean disponible) { /* ... */ }
 }

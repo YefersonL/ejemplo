@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Platos | Mi Restaurante</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* (Tus estilos CSS existentes aquí) */
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            background-color: #f8f8f8;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .header {
+            width: 100%;
+            padding: 15px 0;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 2.2em;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .container {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+            box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            text-align: center;
+            color: #4CAF50;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: 600;
+            color: #555;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .acciones {
+            display: flex;
+            gap: 10px;
+        }
+
+        .acciones button {
+            padding: 8px 12px;
+            font-size: 0.9em;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: auto;
+        }
+
+        .acciones button.eliminar {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .acciones button.eliminar:hover {
+            background-color: #c82333;
+        }
+
+        .acciones button.editar {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .acciones button.editar:hover {
+            background-color: #0056b3;
+        }
+
+        .message {
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .message.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        .navigation-links {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .navigation-links a {
+            color: #4CAF50;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 0 10px;
+            transition: color 0.3s ease;
+        }
+
+        .navigation-links a:hover {
+            text-decoration: underline;
+            color: #3e8e41;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                max-width: 95%;
+                padding: 20px;
+            }
+            th, td {
+                padding: 8px;
+                font-size: 0.9em;
+            }
+            .acciones {
+                flex-direction: column;
+                gap: 5px;
+            }
+            .acciones button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        Mi Restaurante
+    </div>
+
+    <div class="container">
+        <h1>Lista de Platos</h1>
+
+        <div th:if="${mensaje}" class="message success">
+            <p th:text="${mensaje}"></p>
+        </div>
+        <div th:if="${error}" class="message error">
+            <p th:text="${error}"></p>
+        </div>
+
+        <table th:if="${!platos.isEmpty()}">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Precio</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="plato : ${platos}">
+                    <td th:text="${plato.id}"></td>
+                    <td th:text="${plato.nombre_Plato}"></td>
+                    <td th:text="${plato.descripcion}"></td>
+                    <td th:text="${#numbers.formatDecimal(plato.precio, 1, 2)}"></td>
+                    <td class="acciones">
+                        <a th:href="@{/platos/editar/{id}(id=${plato.id})}">
+                            <button type="button" class="editar">Editar</button>
+                        </a>
+                        <form th:action="@{/platos/eliminar/{id}(id=${plato.id})}" method="post" onsubmit="return confirm('¿Estás seguro de que quieres eliminar este plato?');">
+                            <button type="submit" class="eliminar">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div th:if="${platos.isEmpty()}" style="text-align: center; margin-top: 30px;">
+            <p>No hay platos registrados. ¡Empieza añadiendo uno!</p>
+        </div>
+
+        <div class="navigation-links">
+            <a th:href="@{/}">Registrar Nuevo Plato</a> |
+            <a th:href="@{/platos}">Actualizar Lista</a>
+        </div>
+    </div>
+
+</body>
+</html>

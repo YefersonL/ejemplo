@@ -1,37 +1,35 @@
 package com.practica.practica.model;
 
-import jakarta.persistence.*; // O javax.persistence.* si usas una versión antigua de Spring Boot/JPA
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
-@Entity // Indica que esta clase es una Entidad JPA y se mapea a una tabla de DB
-@Table(name = "Plato") // Opcional: especifica el nombre de la tabla si es diferente al nombre de la clase
+@Entity
 public class Plato {
 
-    @Id // Indica que este campo es la clave primaria
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Configura la autogeneración del ID por la DB
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "Nombre_Plato", nullable = false, length = 100) // Mapea a una columna 'nombre', no nula, max 100 chars
-    private String Nombre_Plato;
+    private String nombre_Plato;
+    private String descripcion;
+    private double precio;
+    // private String categoria; // Eliminado previamente
+    // private boolean disponible; // ¡Ahora eliminado!
 
-    @Column(name = "Descripcion", nullable = false, unique = true) // Mapea a una columna 'Descripcion', no nula, única
-    private String Descripcion;
-
-    @Column(name = "Precio") // Mapea a una columna 'Precio'
-    private double Precio; // Usamos double para permitir valores nulos si es opcional
-
-    // --- Constructores ---
-    // JPA requiere un constructor sin argumentos
+    // Constructores
     public Plato() {
     }
 
-    // Constructor útil para crear objetos Plato
-    public Plato(String Nombre_Plato, String Descripcion, double Precio) {
-        this.Nombre_Plato = Nombre_Plato;
-        this.Descripcion = Descripcion;
-        this.Precio = Precio;
+    // Constructor actualizado sin 'categoria' ni 'disponible'
+    public Plato(String nombre_Plato, String descripcion, double precio) {
+        this.nombre_Plato = nombre_Plato;
+        this.descripcion = descripcion;
+        this.precio = precio;
     }
 
-    // --- Getters y Setters (Necesarios para JPA y para acceder/modificar los datos) ---
+    // Getters y Setters
     public Long getId() {
         return id;
     }
@@ -41,28 +39,40 @@ public class Plato {
     }
 
     public String getNombre_Plato() {
-        return Nombre_Plato;
+        return nombre_Plato;
     }
 
-    public void setNombre_Plato(String Nombre_Plato) {
-        this.Nombre_Plato = Nombre_Plato;
+    public void setNombre_Plato(String nombre_Plato) {
+        this.nombre_Plato = nombre_Plato;
     }
 
     public String getDescripcion() {
-        return Descripcion;
+        return descripcion;
     }
 
-    public void setDescripcion(String Descripcion) {
-        this.Descripcion = Descripcion;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
 
-    public double getPrecio () {
-        return Precio;
+    public double getPrecio() {
+        return precio;
     }
 
-    public void setPrecio(double Precio) {
-        this.Precio = Precio;
+    public void setPrecio(double precio) {
+        this.precio = precio;
     }
 
-    // Opcional: toString(), equals(), hashCode() para depuración y comparación
+    // Métodos get/set de categoria y disponible ¡Eliminados!
+    // public boolean isDisponible() { /* ... */ }
+    // public void setDisponible(boolean disponible) { /* ... */ }
+
+    @Override
+    public String toString() {
+        return "Plato{" +
+                "id=" + id +
+                ", nombre_Plato='" + nombre_Plato + '\'' +
+                ", descripcion='" + descripcion + '\'' +
+                ", precio=" + precio +
+                '}';
+    }
 }
