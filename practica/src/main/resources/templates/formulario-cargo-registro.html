@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Cargo</title>
+    <style>
+        /* Reutiliza o adapta los estilos de tus otras plantillas */
+        body { font-family: sans-serif; margin: 20px; background-color: #f4f4f4; }
+        .container { background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
+        h1 { color: #333; text-align: center; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input[type="text"], input[type="number"] { width: 100%; padding: 8px; border: 1px solid #ddd; border-radius: 4px; box-sizing: border-box; }
+        button { background-color: #4CAF50; color: white; padding: 10px 15px; border: none; border-radius: 4px; cursor: pointer; width: 100%; font-size: 16px; }
+        button:hover { background-color: #45a049; }
+        .message { padding: 10px; margin-bottom: 15px; border-radius: 5px; text-align: center; }
+        .message.success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .message.error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .navigation-links { text-align: center; margin-top: 20px; }
+        .navigation-links a { color: #007bff; text-decoration: none; margin: 0 10px; }
+        .navigation-links a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Registrar Nuevo Cargo</h1>
+
+        <div th:if="${mensaje}" class="message success">
+            <p th:text="${mensaje}"></p>
+        </div>
+        <div th:if="${error}" class="message error">
+            <p th:text="${error}"></p>
+        </div>
+
+        <form th:action="@{/cargos/guardar}" th:object="${datosFormularioCargo}" method="post">
+            <div class="form-group">
+                <label for="nombreCargo">Nombre del Cargo:</label>
+                <input type="text" id="nombreCargo" th:field="*{nombreCargo}" required placeholder="Ej: Gerente, Cocinero">
+            </div>
+
+            <div class="form-group">
+                <label for="salarioBase">Salario Base:</label>
+                <input type="number" id="salarioBase" th:field="*{salarioBase}" step="0.01" min="0" required placeholder="Ej: 1500.00">
+            </div>
+
+            <button type="submit">Registrar Cargo</button>
+        </form>
+
+        <div class="navigation-links">
+            <a th:href="@{/cargos/lista}">Ver Lista de Cargos</a> |
+            <a th:href="@{/}">Ir a Inicio</a>
+        </div>
+    </div>
+</body>
+</html>
