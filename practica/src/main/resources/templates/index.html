@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Sistema de Gestión del Restaurante</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
     <style>
-        /* Estilos Generales */
-        body {
-            font-family: 'Poppins', sans-serif;
+        html, body {
+            height: auto; /* Asegura que se ajuste al contenido */
+            overflow-y: auto; /* Permite el desplazamiento vertical cuando sea necesario */
             margin: 0;
             padding: 0;
-            background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%); /* Fondo degradado */
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to right, #6a11cb 0%, #2575fc 100%);
             color: #333;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            overflow: hidden;
+            min-height: 100vh; /* Mantenemos esto para el centrado inicial */
         }
 
         .container {
-            background-color: rgba(255, 255, 255, 0.95); /* Fondo semitransparente blanco */
+            background-color: rgba(255, 255, 255, 0.95);
             padding: 40px 50px;
             border-radius: 15px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
@@ -29,15 +29,23 @@
             max-width: 600px;
             width: 90%;
             animation: fadeIn 1s ease-in-out;
+            overflow-y: auto; /* Añadimos scroll vertical solo al contenedor si su contenido excede su altura */
+            max-height: 90vh; /* O un valor que consideres apropiado para dejar espacio para el navegador */
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         h1 {
-            color: #2575fc; /* Color del título principal */
+            color: #2575fc;
             margin-bottom: 25px;
             font-size: 2.5em;
             font-weight: 600;
@@ -52,7 +60,7 @@
 
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* Columnas responsivas */
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 25px;
             margin-top: 30px;
         }
@@ -67,8 +75,8 @@
             flex-direction: column;
             justify-content: space-between;
             align-items: center;
-            text-decoration: none; /* Quitar subrayado del enlace */
-            color: inherit; /* Heredar color de texto */
+            text-decoration: none;
+            color: inherit;
         }
 
         .menu-item:hover {
@@ -77,7 +85,7 @@
         }
 
         .menu-item h2 {
-            color: #6a11cb; /* Color del subtítulo de la tarjeta */
+            color: #6a11cb;
             font-size: 1.6em;
             margin-bottom: 15px;
             font-weight: 600;
@@ -91,9 +99,9 @@
 
         .menu-item .button-group {
             display: flex;
-            flex-wrap: wrap; /* Permite que los botones salten de línea */
+            flex-wrap: wrap;
             justify-content: center;
-            gap: 10px; /* Espacio entre botones */
+            gap: 10px;
             width: 100%;
         }
 
@@ -106,7 +114,7 @@
             border-radius: 8px;
             font-weight: 500;
             transition: background-color 0.3s ease, transform 0.2s ease;
-            white-space: nowrap; /* Evita que el texto del botón se rompa */
+            white-space: nowrap;
         }
 
         .menu-item .button-group a:hover {
@@ -114,15 +122,14 @@
             transform: translateY(-2px);
         }
 
-        /* Estilos específicos para el botón "Gestionar" */
         .menu-item .button-group a.manage-btn {
             background-color: #6a11cb;
         }
+
         .menu-item .button-group a.manage-btn:hover {
             background-color: #550aa8;
         }
 
-        /* Responsividad básica */
         @media (max-width: 768px) {
             .container {
                 padding: 30px;
@@ -131,15 +138,16 @@
                 font-size: 2em;
             }
             .menu-grid {
-                grid-template-columns: 1fr; /* Una columna en pantallas pequeñas */
+                grid-template-columns: 1fr;
             }
             .menu-item .button-group a {
-                width: calc(50% - 5px); /* Dos botones por fila */
+                width: calc(50% - 5px);
             }
         }
+
         @media (max-width: 480px) {
             .menu-item .button-group a {
-                width: 100%; /* Un botón por fila en pantallas muy pequeñas */
+                width: 100%;
             }
         }
     </style>
@@ -168,7 +176,15 @@
                 </div>
             </div>
 
+            <div class="menu-item">
+                <h2>Sedes</h2>
+                <p class="description">Gestiona las sedes físicas de tu restaurante. Añade nuevas ubicaciones y edita las existentes.</p>
+                <div class="button-group">
+                    <a th:href="@{/sedes/lista}" class="manage-btn">Gestionar Sedes</a>
+                    <a th:href="@{/sedes/registro}">Añadir Nueva</a>
+                </div>
             </div>
+        </div>
     </div>
 </body>
 </html>
