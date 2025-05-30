@@ -25,15 +25,22 @@ public class PlatoController {
         this.platoService = platoService;
     }
 
-    // --- MÉTODOS EXISTENTES (sin cambios) ---
-    @GetMapping("/")
+    // --- MÉTODOS EXISTENTES (con el cambio principal aquí) ---
+
+    // CAMBIO AQUÍ: Cambiado de @GetMapping("/") a @GetMapping("/platos/registro")
+    @GetMapping("/platos/registro") // Esta será la URL para acceder al formulario de registro de platos
     public String mostrarFormulario(Model model) {
         model.addAttribute("datosFormulario", new PlatoRegistroDTO());
-        System.out.println("Sirviendo formulario.html desde templates");
-        return "formulario";
+        System.out.println("Sirviendo formulario.html (ahora para registro de platos) desde templates");
+        // Asegúrate de que tu plantilla se llame "formulario-plato-registro.html"
+        // para mayor claridad, aunque "formulario.html" funcionará si es el nombre.
+        return "formulario-plato-registro"; // Sugerencia de nombre de plantilla
     }
 
-    @PostMapping("/guardar-datos")
+    // Asegúrate de que en tu HTML de registro (formulario-plato-registro.html)
+    // el action del formulario apunte a la URL correcta, por ejemplo:
+    // <form th:action="@{/platos/guardar-datos}" th:object="${datosFormulario}" method="post">
+    @PostMapping("/platos/guardar-datos") // Añadido /platos/ para mayor consistencia y claridad
     public String registrarPlato(@ModelAttribute("datosFormulario") PlatoRegistroDTO datosFormulario,
                                  RedirectAttributes redirectAttributes) {
         System.out.println("Datos recibidos del formulario en POST:");
@@ -44,30 +51,32 @@ public class PlatoController {
         try {
             platoService.registrarNuevoPlato(datosFormulario);
             redirectAttributes.addFlashAttribute("mensaje", "Plato registrado exitosamente!");
-            System.out.println("Registro exitoso, redirigiendo a /exito");
-            return "redirect:/exito";
+            System.out.println("Registro exitoso, redirigiendo a /platos/exito"); // Cambiado URL
+            return "redirect:/platos/exito"; // Redirige a una URL específica de platos
 
         } catch (Exception e) {
             e.printStackTrace();
             redirectAttributes.addFlashAttribute("error", "Error al registrar el plato: " + e.getMessage());
-            System.out.println("Error en el registro, redirigiendo a /error");
-            return "redirect:/error";
+            System.out.println("Error en el registro, redirigiendo a /platos/error"); // Cambiado URL
+            return "redirect:/platos/error"; // Redirige a una URL específica de platos
         }
     }
 
-    @GetMapping("/exito")
+    // Cambiado de /exito a /platos/exito
+    @GetMapping("/platos/exito")
     public String mostrarPaginaExito() {
-        System.out.println("Sirviendo exito.html desde templates");
-        return "exito";
+        System.out.println("Sirviendo exito.html desde templates para platos");
+        return "exito"; // Puedes crear un exito-plato.html si quieres uno específico
     }
 
-    @GetMapping("/error")
+    // Cambiado de /error a /platos/error
+    @GetMapping("/platos/error")
     public String mostrarPaginaError() {
-        System.out.println("Sirviendo error.html desde templates");
-        return "error";
+        System.out.println("Sirviendo error.html desde templates para platos");
+        return "error"; // Puedes crear un error-plato.html si quieres uno específico
     }
 
-    @GetMapping("/platos")
+    @GetMapping("/platos/lista") // Esta es la URL para listar platos (también puedes usar /platos/lista)
     public String listarPlatos(Model model) {
         List<Plato> platos = platoService.obtenerTodosLosPlatos();
         model.addAttribute("platos", platos);
@@ -87,10 +96,10 @@ public class PlatoController {
             redirectAttributes.addFlashAttribute("error", "No se pudo eliminar el plato con ID " + id + ". Posiblemente no existe.");
             System.out.println("No se encontró el plato con ID " + id + " para eliminar.");
         }
-        return "redirect:/platos";
+        return "redirect:/platos/lista"; // Redirige a la lista de platos
     }
 
-    // --- NUEVOS MÉTODOS PARA EDITAR ---
+    // --- MÉTODOS PARA EDITAR (sin cambios de URL aquí, ya eran específicos) ---
 
     // 1. Mostrar el formulario de edición con los datos del plato existente
     @GetMapping("/platos/editar/{id}")
@@ -99,19 +108,18 @@ public class PlatoController {
 
         if (platoOptional.isPresent()) {
             Plato plato = platoOptional.get();
-            // Creamos un DTO a partir del Plato existente para prellenar el formulario
             PlatoRegistroDTO datosFormulario = new PlatoRegistroDTO(
                     plato.getNombre_Plato(),
                     plato.getDescripcion(),
                     plato.getPrecio()
             );
-            model.addAttribute("platoId", id); // Necesitamos el ID para la URL de actualización
-            model.addAttribute("datosFormulario", datosFormulario); // El DTO prellenado
+            model.addAttribute("platoId", id);
+            model.addAttribute("datosFormulario", datosFormulario);
             System.out.println("Sirviendo formulario-editar.html para plato ID: " + id);
-            return "formulario-editar"; // Nueva plantilla HTML para editar
+            return "formulario-editar";
         } else {
             redirectAttributes.addFlashAttribute("error", "Plato no encontrado para editar.");
-            return "redirect:/platos"; // Redirige a la lista si no se encuentra
+            return "redirect:/platos/lista";
         }
     }
 
@@ -128,11 +136,11 @@ public class PlatoController {
         if (platoActualizado != null) {
             redirectAttributes.addFlashAttribute("mensaje", "Plato actualizado exitosamente!");
             System.out.println("Plato con ID " + id + " actualizado.");
-            return "redirect:/platos"; // Redirige a la lista después de la actualización
+            return "redirect:/platos/lista";
         } else {
             redirectAttributes.addFlashAttribute("error", "Error al actualizar el plato con ID " + id + ". Posiblemente no existe.");
             System.out.println("Error al actualizar plato con ID " + id + ".");
-            return "redirect:/platos/editar/" + id; // Vuelve al formulario de edición si falla
+            return "redirect:/platos/editar/" + id;
         }
     }
 }
