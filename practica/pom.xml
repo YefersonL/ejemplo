@@ -6,7 +6,8 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.4.5</version> <relativePath/> </parent>
+		<version>3.4.5</version> <relativePath/>
+	</parent>
 
 	<groupId>com.practica</groupId>
 	<artifactId>practica</artifactId>
@@ -29,18 +30,13 @@
 			<email>tu.email@example.com</email>
 		</developer>
 	</developers>
-	<scm>
-		<connection>scm:git:git://github.com/tu-usuario/practica.git</connection>
-		<developerConnection>scm:git:ssh://github.com/tu-usuario/practica.git</developerConnection>
-		<url>http://github.com/tu-usuario/practica</url>
-		<tag>HEAD</tag>
-	</scm>
 
 	<properties>
-		<java.version>17</java.version> <maven.site.plugin.version>3.12.1</maven.site.plugin.version>
+		<java.version>17</java.version>
+		<maven.fluido.skin.version>1.11.1</maven.fluido.skin.version>
+		<doxia.version>1.11.1</doxia.version>
 		<maven.project.info.reports.plugin.version>3.4.5</maven.project.info.reports.plugin.version>
-		<maven.fluido.skin.version>1.11.2</maven.fluido.skin.version>
-		<doxia.version>1.11.1</doxia.version> </properties>
+	</properties>
 
 	<dependencies>
 		<dependency>
@@ -49,24 +45,11 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-jdbc</artifactId>
+			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web-services</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-webflux</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-thymeleaf</artifactId>
 		</dependency>
 
 		<dependency>
@@ -75,88 +58,58 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.hsqldb</groupId>
-			<artifactId>hsqldb</artifactId>
-			<scope>runtime</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.projectlombok</groupId>
-			<artifactId>lombok</artifactId>
-			<optional>true</optional>
-		</dependency>
-
-		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>io.projectreactor</groupId>
-			<artifactId>reactor-test</artifactId>
-			<scope>test</scope>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
 	</dependencies>
 
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<annotationProcessorPaths>
-						<path>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</path>
-					</annotationProcessorPaths>
-				</configuration>
-			</plugin>
-
-			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<exclude>
-							<groupId>org.projectlombok</groupId>
-							<artifactId>lombok</artifactId>
-						</exclude>
-					</excludes>
-				</configuration>
 			</plugin>
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-site-plugin</artifactId>
-				<version>${maven.site.plugin.version}</version>
-				<dependencies>
-					<dependency>
-						<groupId>org.apache.maven.skins</groupId>
-						<artifactId>maven-fluido-skin</artifactId>
-						<version>${maven.fluido.skin.version}</version>
-					</dependency>
-					<dependency>
-						<groupId>org.apache.maven.doxia</groupId>
-						<artifactId>doxia-site-renderer</artifactId>
-						<version>${doxia.version}</version>
-					</dependency>
-					<dependency>
-						<groupId>org.apache.maven.doxia</groupId>
-						<artifactId>doxia-core</artifactId>
-						<version>${doxia.version}</version>
-					</dependency>
-					<dependency>
-						<groupId>org.apache.maven.doxia</groupId>
-						<artifactId>doxia-sink-api</artifactId>
-						<version>${doxia.version}</version>
-					</dependency>
-				</dependencies>
+				<version>3.12.1</version> <dependencies>
+				<dependency>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-validation</artifactId>
+					<version>${project.parent.version}</version> </dependency>
+				<dependency>
+					<groupId>org.apache.maven.skins</groupId>
+					<artifactId>maven-fluido-skin</artifactId>
+					<version>${maven.fluido.skin.version}</version>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.maven.doxia</groupId>
+					<artifactId>doxia-site-renderer</artifactId>
+					<version>${doxia.version}</version>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.maven.doxia</groupId>
+					<artifactId>doxia-core</artifactId>
+					<version>${doxia.version}</version>
+				</dependency>
+				<dependency>
+					<groupId>org.apache.maven.doxia</groupId>
+					<artifactId>doxia-sink-api</artifactId>
+					<version>${doxia.version}</version>
+				</dependency>
+
+			</dependencies>
 				<configuration>
 					<skin>
 						<groupId>org.apache.maven.skins</groupId>
 						<artifactId>maven-fluido-skin</artifactId>
 					</skin>
+
 				</configuration>
 			</plugin>
 
@@ -165,16 +118,7 @@
 				<artifactId>maven-project-info-reports-plugin</artifactId>
 				<version>${maven.project.info.reports.plugin.version}</version>
 			</plugin>
-
 		</plugins>
 	</build>
 
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-project-info-reports-plugin</artifactId>
-				<version>${maven.project.info.reports.plugin.version}</version> </plugin>
-		</plugins>
-	</reporting>
 </project>
