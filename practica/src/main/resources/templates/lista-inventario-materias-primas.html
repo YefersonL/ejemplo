@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Espacios | Mi Restaurante</title>
+    <title>Inventario de Materias Primas | Mi Restaurante</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -22,7 +22,7 @@
             --success-text: #065F46;
             --error-bg: #FEE2E2;
             --error-text: #991B1B;
-            --table-header-bg: #6D28D9; /* Using purple for table header */
+            --table-header-bg: #6D28D9; /* Changed to match PQRS */
         }
 
         body {
@@ -54,7 +54,7 @@
             color: var(--text-secondary);
             text-align: center;
             margin-bottom: 40px;
-            max-width: 500px;
+            max-width: 500px; /* Changed to match PQRS */
         }
 
         .container {
@@ -63,7 +63,7 @@
             border-radius: 16px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 6px 10px rgba(0,0,0,0.06);
             width: 100%;
-            max-width: 1000px; /* Adjusted max-width for better table display */
+            max-width: 1200px; /* Changed to match PQRS */
             box-sizing: border-box;
         }
 
@@ -76,13 +76,13 @@
             font-weight: 600;
         }
 
+        /* Renamed from .add-button-container to .add-new-button for consistency with PQRS */
         .add-new-button {
-            display: inline-flex;
-            align-items: center;
-            background-color: var(--purple-primary);
+            display: inline-block;
+            background-color: var(--purple-primary); /* Changed to match PQRS */
             color: white;
             text-decoration: none;
-            padding: 14px 25px;
+            padding: 14px 25px; /* Changed to match PQRS */
             border-radius: 8px;
             font-weight: 600;
             margin-bottom: 25px;
@@ -91,12 +91,12 @@
             border: none;
             cursor: pointer;
             text-align: center;
-            font-size: 16px;
+            font-size: 16px; /* Changed to match PQRS */
         }
 
         .add-new-button:hover {
-            background-color: var(--purple-dark);
-            transform: translateY(-2px);
+            background-color: var(--purple-dark); /* Changed to match PQRS */
+            transform: translateY(-2px); /* Changed to match PQRS */
         }
 
         .add-new-button i {
@@ -105,13 +105,13 @@
 
         .table-container {
             overflow-x: auto;
-            border-radius: 10px;
+            border-radius: 10px; /* Changed to match PQRS */
             margin-bottom: 25px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03); /* Changed to match PQRS */
             border: 1px solid var(--border-color);
         }
 
-        table {
+        table { /* Changed from .data-table to table for consistency with PQRS */
             width: 100%;
             border-collapse: collapse;
             background: white;
@@ -120,96 +120,91 @@
         }
 
         thead {
-            background: linear-gradient(90deg, var(--purple-primary) 0%, var(--purple-dark) 100%);
+            background: linear-gradient(90deg, var(--purple-primary) 0%, var(--purple-dark) 100%); /* Changed to match PQRS */
             color: white;
         }
 
         th {
-            padding: 16px 15px;
+            padding: 16px 15px; /* Changed to match PQRS */
             text-align: left;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            font-size: 15px;
+            font-size: 15px; /* Changed to match PQRS */
         }
 
         tbody tr {
-            border-bottom: 1px solid #eef2f7;
+            border-bottom: 1px solid #eef2f7; /* Changed to match PQRS */
             transition: background-color 0.2s;
         }
 
-        tbody tr:nth-child(even) {
+        tbody tr:nth-child(even) { /* Added to match PQRS */
             background-color: #f8fafc;
         }
 
         tbody tr:hover {
-            background-color: #f0e9ff;
+            background-color: #f0e9ff; /* Changed to match PQRS */
         }
 
         td {
-            padding: 15px;
+            padding: 15px; /* Changed to match PQRS */
             color: var(--text-primary);
-            vertical-align: middle;
         }
 
-        .actions {
+        .actions { /* Renamed from .acciones to .actions for consistency with PQRS */
             display: flex;
             gap: 10px;
-            flex-wrap: wrap;
+            flex-wrap: wrap; /* Added for consistency with PQRS */
         }
 
-        .edit, .delete {
-            padding: 8px 15px;
-            border-radius: 5px;
+        .edit, .delete { /* Combined styles for consistency with PQRS */
+            padding: 8px 15px; /* Changed to match PQRS */
+            border-radius: 5px; /* Changed to match PQRS */
             font-weight: 500;
-            font-size: 14px;
+            font-size: 14px; /* Changed to match PQRS */
             transition: all 0.2s ease;
             display: inline-flex;
             align-items: center;
             text-decoration: none;
+            border: none; /* Added to match PQRS */
+            cursor: pointer; /* Added to match PQRS */
         }
 
         .edit {
-            background-color: var(--blue-secondary);
+            background-color: var(--blue-secondary); /* Changed to match PQRS */
             color: white;
-            border: none;
-            cursor: pointer;
         }
 
         .edit:hover {
-            background-color: var(--blue-dark);
-            transform: translateY(-2px);
+            background-color: var(--blue-dark); /* Changed to match PQRS */
+            transform: translateY(-2px); /* Changed to match PQRS */
         }
 
         .delete {
-            background-color: #e74c3c;
+            background-color: #e74c3c; /* Changed to match PQRS */
             color: white;
-            border: none;
-            cursor: pointer;
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Montserrat', sans-serif; /* Added to match PQRS */
         }
 
         .delete:hover {
-            background-color: #c0392b;
-            transform: translateY(-2px);
+            background-color: #c0392b; /* Changed to match PQRS */
+            transform: translateY(-2px); /* Changed to match PQRS */
         }
 
         .no-records {
             text-align: center;
-            margin-top: 20px;
-            padding: 20px;
-            background: #f8fafc;
-            border-radius: 8px;
+            margin-top: 20px; /* Changed to match PQRS */
+            padding: 20px; /* Added to match PQRS */
+            background: #f8fafc; /* Added to match PQRS */
+            border-radius: 8px; /* Added to match PQRS */
             color: var(--text-secondary);
-            font-size: 18px;
-            border: 1px dashed var(--border-color);
+            font-size: 18px; /* Changed to match PQRS */
         }
 
         .no-records i {
-            font-size: 24px;
-            margin-bottom: 10px;
-            color: #95a5a6;
-            display: block;
+            font-size: 24px; /* Changed to match PQRS */
+            margin-bottom: 10px; /* Changed to match PQRS */
+            color: #95a5a6; /* Changed to match PQRS */
         }
 
         .message {
@@ -259,19 +254,16 @@
             transform: translateY(-1px);
         }
 
-        /* Media Queries for Responsiveness */
-        @media (max-width: 1024px) {
-            .table-container {
-                overflow-x: auto;
-            }
+        @media (max-width: 992px) { /* Added to match PQRS */
             table {
-                min-width: 700px; /* Adjust min-width if columns are still too narrow */
+                display: block;
+                overflow-x: auto;
             }
         }
 
         @media (max-width: 768px) {
             .container {
-                padding: 20px;
+                padding: 20px; /* Changed to match PQRS */
             }
             .main-title {
                 font-size: 2.2em;
@@ -280,11 +272,11 @@
                 font-size: 1em;
                 margin-bottom: 30px;
             }
-            .actions {
+            .actions { /* Changed to match PQRS */
                 flex-direction: column;
                 align-items: flex-start;
             }
-            .edit, .delete {
+            .edit, .delete { /* Changed to match PQRS */
                 width: 100%;
                 justify-content: center;
             }
@@ -292,9 +284,6 @@
                 flex-direction: column;
                 align-items: center;
                 gap: 15px;
-            }
-            th, td {
-                padding: 12px;
             }
         }
 
@@ -309,75 +298,84 @@
                 padding: 20px;
                 border-radius: 12px;
             }
-            .add-new-button, .navigation-links a {
+            .add-new-button, .navigation-links a { /* Changed from .add-button to .add-new-button for consistency */
                 font-size: 0.95em;
                 padding: 12px 15px;
+            }
+            .navigation-links {
+                flex-direction: column;
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="main-title">Sistema de Gestión de Restaurantes</div>
-    <div class="main-subtitle">Administra los espacios de tus sedes.</div>
+<div class="main-title">Gestión de Inventario</div>
+<div class="main-subtitle">Lista de todas las materias primas registradas en tu restaurante. Aquí puedes ver, editar o eliminar entradas.</div>
 
-    <div class="container">
-        <h1>Listado de Espacios</h1>
+<div class="container">
+    <h1>Inventario de Materias Primas</h1>
 
-        <div th:if="${mensaje}" class="message success">
-            <p th:text="${mensaje}"></p>
-        </div>
-        <div th:if="${error}" class="message error">
-            <p th:text="${error}"></p>
-        </div>
-
-        <a th:href="@{/espacios/registro}" class="add-new-button">
-            <i class="fas fa-plus-circle"></i> Registrar Nuevo Espacio
-        </a>
-
-        <div class="table-container">
-            <table th:if="${not #lists.isEmpty(espacios)}">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Sede</th>
-                        <th>Nombre del Espacio</th>
-                        <th>Tipo de Espacio</th>
-                        <th>Capacidad</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr th:each="espacio : ${espacios}">
-                        <td th:text="${espacio.id_Espacio}"></td>
-                        <td th:text="${espacio.sede != null ? espacio.sede.nombre_Sede : 'N/A'}"></td>
-                        <td th:text="${espacio.nombre_Espacio}"></td>
-                        <td th:text="${espacio.tipo_Espacio}"></td>
-                        <td th:text="${espacio.capacidad}"></td>
-                        <td class="actions">
-                            <a th:href="@{/espacios/editar/{id}(id=${espacio.id_Espacio})}" class="edit">
-                                <i class="fas fa-edit"></i> Editar
-                            </a>
-                            <form th:action="@{/espacios/eliminar/{id}(id=${espacio.id_Espacio})}" method="post" style="display:inline;">
-                                <button type="submit" class="delete" onclick="return confirm('¿Estás seguro de que quieres eliminar este espacio?');">
-                                    <i class="fas fa-trash-alt"></i> Eliminar
-                                </button>
-                            </form>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div th:if="${#lists.isEmpty(espacios)}" class="no-records">
-            <i class="fas fa-chair"></i> <p>No hay espacios registrados. ¡Empieza añadiendo uno!</p>
-        </div>
-
-        <div class="navigation-links">
-            <a th:href="@{/espacios/registro}">Registrar Nuevo Espacio</a>
-            <a th:href="@{/espacios/lista}">Actualizar Lista</a>
-            <a th:href="@{/}">Ir a Inicio</a>
-        </div>
+    <div th:if="${mensaje}" class="message success">
+        <p th:text="${mensaje}"></p>
     </div>
+    <div th:if="${error}" class="message error">
+        <p th:text="${error}"></p>
+    </div>
+
+    <a th:href="@{/inventario-materias-primas/registro}" class="add-new-button">
+        <i class="fas fa-plus-circle"></i> Añadir Nueva Entrada
+    </a>
+
+    <div th:if="${!inventario.isEmpty()}" class="table-container">
+        <table class="data-table"> <thead>
+        <tr>
+            <th>ID</th>
+            <th>Materia Prima</th>
+            <th>Cantidad Disponible</th>
+            <th>Unidad de Medida</th>
+            <th>Última Actualización</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+            <tbody>
+            <tr th:each="inv : ${inventario}">
+                <td th:text="${inv.idInventarioMateriaPrima}"></td>
+                <td th:text="${inv.materiaPrima.nombre}"></td>
+                <td th:text="${#numbers.formatDecimal(inv.cantidadDisponible, 1, 2)}"></td>
+                <td th:text="${inv.materiaPrima.unidadMedida}"></td>
+                <td th:text="${#temporals.format(inv.fechaUltimaActualizacion, 'dd/MM/yyyy HH:mm')}"></td>
+                <td class="actions"> <a th:href="@{/inventario-materias-primas/editar/{id}(id=${inv.idInventarioMateriaPrima})}" class="edit">
+                    <i class="fas fa-edit"></i> Editar
+                </a>
+                    <form th:action="@{/inventario-materias-primas/eliminar/{id}(id=${inv.idInventarioMateriaPrima})}" method="post" style="display:inline;"> <button type="submit" class="delete" onclick="return confirm('¿Estás seguro de que quieres eliminar esta entrada de inventario?');"> <i class="fas fa-trash-alt"></i> Eliminar
+                    </button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:if="${inventario.isEmpty()}" class="no-records">
+        <i class="fas fa-inbox"></i>
+        <p>No hay entradas de inventario registradas. ¡Empieza añadiendo una!</p>
+    </div>
+
+    <div class="navigation-links">
+        <a th:href="@{/inventario-materias-primas/registro}">Ir a Registro de Inventario</a>
+        <a th:href="@{/}">Ir a Inicio</a>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.delete').forEach(button => {
+        button.addEventListener('click', function(e) {
+            if (!confirm('¿Estás seguro de que quieres eliminar esta entrada de inventario? Esta acción no se puede deshacer.')) {
+                e.preventDefault();
+            }
+        });
+    });
+</script>
 </body>
 </html>

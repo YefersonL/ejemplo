@@ -3,26 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Sede | Mi Restaurante</title>
+    <title>Editar Materia Prima | Mi Restaurante</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <style>
         :root {
-            --purple-primary: #6D28D9; /* Púrpura principal (similar a los botones "Gestionar") */
+            --purple-primary: #6D28D9;
             --purple-dark: #5B21B6;
             --purple-darker: #4C1D95;
-            --blue-secondary: #3B82F6; /* Azul para botones secundarios (similar a "Añadir Nuevo") */
+            --blue-secondary: #3B82F6;
             --blue-dark: #2563EB;
-            --text-primary: #1F2937; /* Gris oscuro para texto */
+            --text-primary: #1F2937;
             --text-secondary: #4B5563;
-            --bg-page: #F3F4F6; /* Fondo de página gris muy claro */
+            --bg-page: #F3F4F6;
             --bg-card: #FFFFFF;
             --border-color: #D1D5DB;
             --border-focus-shadow: rgba(109, 40, 217, 0.25);
-            --success-bg: #D1FAE5; /* Un verde pastel para éxito */
+            --success-bg: #D1FAE5;
             --success-text: #065F46;
-            --error-bg: #FEE2E2; /* Un rojo pastel para error */
+            --error-bg: #FEE2E2;
             --error-text: #991B1B;
         }
 
@@ -88,11 +87,7 @@
             font-size: 0.9em;
         }
 
-        input[type="text"],
-        textarea,
-        input[type="date"],
-        input[type="number"],
-        select {
+        input[type="text"] {
             width: 100%;
             padding: 12px 15px;
             box-sizing: border-box;
@@ -104,24 +99,16 @@
             transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
-        input[type="text"]::placeholder,
-        textarea::placeholder {
-            color: #9CA3AF;
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        input[type="text"]:focus,
-        textarea:focus,
-        input[type="date"]:focus,
-        input[type="number"]:focus,
-        select:focus {
+        input[type="text"]:focus {
             border-color: var(--purple-primary);
             outline: none;
             box-shadow: 0 0 0 3px var(--border-focus-shadow);
+        }
+
+        input[readonly] {
+            background-color: #E5E7EB; /* Light grey for readonly */
+            cursor: not-allowed;
+            opacity: 0.8;
         }
 
         button[type="submit"] {
@@ -239,11 +226,12 @@
     </style>
 </head>
 <body>
-    <div class="main-title">Sistema de Gestión de Sedes</div>
-    <div class="main-subtitle">Registra nuevas sedes para tu restaurante.</div>
+
+    <div class="main-title">Sistema de Gestión de Restaurantes</div>
+    <div class="main-subtitle">Edita la información de tus materias primas.</div>
 
     <div class="container">
-        <h1>Registrar Nueva Sede</h1>
+        <h1>Editar Materia Prima</h1>
 
         <div th:if="${mensaje}" class="message success">
             <p th:text="${mensaje}"></p>
@@ -252,24 +240,32 @@
             <p th:text="${error}"></p>
         </div>
 
-        <form th:action="@{/sedes/registro}" th:object="${datosFormularioSede}" method="post">
+        <form th:action="@{/materias-primas/actualizar/{id}(id=${materiaPrimaId})}" th:object="${datosFormularioMateriaPrima}" method="post">
             <div class="form-group">
-                <label for="nombreSede">Nombre de la Sede:</label>
-                <input type="text" id="nombreSede" th:field="*{nombreSede}" required placeholder="Ej: Principal, Sur">
+                <label for="idMateriaPrima">ID de Materia Prima (No editable):</label>
+                <input type="text" id="idMateriaPrima" th:value="${datosFormularioMateriaPrima.idMateriaPrima}" readonly style="background-color: #e9ecef; cursor: not-allowed;">
             </div>
 
             <div class="form-group">
-                <label for="direccion">Dirección:</label>
-                <input type="text" id="direccion" th:field="*{direccion}" placeholder="Ej: Calle 10 # 20-30">
+                <label for="nombre">Nombre de la Materia Prima:</label>
+                <input type="text" id="nombre" th:field="*{nombre}" required placeholder="Ej: Harina de Trigo">
+                <p th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" class="message error"></p>
             </div>
 
-            <button type="submit">Registrar Sede</button>
+            <div class="form-group">
+                <label for="unidadMedida">Unidad de Medida:</label>
+                <input type="text" id="unidadMedida" th:field="*{unidadMedida}" required placeholder="Ej: gramos, litros, unidades">
+                <p th:if="${#fields.hasErrors('unidadMedida')}" th:errors="*{unidadMedida}" class="message error"></p>
+            </div>
+
+            <button type="submit">Actualizar Materia Prima</button>
         </form>
 
         <div class="navigation-links">
-            <a th:href="@{/sedes/lista}">Ver Lista de Sedes</a>
+            <a th:href="@{/materias-primas/lista}">Cancelar y Volver a la Lista</a>
             <a th:href="@{/}">Ir a Inicio</a>
         </div>
     </div>
+
 </body>
 </html>

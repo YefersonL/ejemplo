@@ -3,16 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Sede | Mi Restaurante</title>
+    <title>Registro de Materia Prima | Mi Restaurante</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <style>
         :root {
-            --purple-primary: #6D28D9; /* Púrpura principal (similar a los botones "Gestionar") */
+            --purple-primary: #6D28D9; /* Púrpura principal */
             --purple-dark: #5B21B6;
             --purple-darker: #4C1D95;
-            --blue-secondary: #3B82F6; /* Azul para botones secundarios (similar a "Añadir Nuevo") */
+            --blue-secondary: #3B82F6; /* Azul para botones secundarios/links */
             --blue-dark: #2563EB;
             --text-primary: #1F2937; /* Gris oscuro para texto */
             --text-secondary: #4B5563;
@@ -88,11 +87,7 @@
             font-size: 0.9em;
         }
 
-        input[type="text"],
-        textarea,
-        input[type="date"],
-        input[type="number"],
-        select {
+        input[type="text"] {
             width: 100%;
             padding: 12px 15px;
             box-sizing: border-box;
@@ -104,21 +99,7 @@
             transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
-        input[type="text"]::placeholder,
-        textarea::placeholder {
-            color: #9CA3AF;
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        input[type="text"]:focus,
-        textarea:focus,
-        input[type="date"]:focus,
-        input[type="number"]:focus,
-        select:focus {
+        input[type="text"]:focus {
             border-color: var(--purple-primary);
             outline: none;
             box-shadow: 0 0 0 3px var(--border-focus-shadow);
@@ -152,9 +133,9 @@
         .navigation-links {
             text-align: center;
             margin-top: 30px;
-            display: flex;
-            gap: 15px;
-            justify-content: center;
+            display: flex; /* Use flexbox for spacing */
+            gap: 15px; /* Gap between links */
+            justify-content: center; /* Center the links */
         }
 
         .navigation-links a {
@@ -166,12 +147,12 @@
             border-radius: 8px;
             transition: background-color 0.2s ease, transform 0.1s ease;
             font-size: 0.95em;
-            display: inline-block;
+            display: inline-block; /* Essential for padding/margin */
         }
 
         .navigation-links a:hover {
             background-color: var(--blue-dark);
-            text-decoration: none;
+            text-decoration: none; /* Remove underline on hover */
             transform: translateY(-1px);
         }
 
@@ -233,17 +214,18 @@
                 padding: 12px 15px;
             }
             .navigation-links {
-                flex-direction: column;
+                flex-direction: column; /* Stack links vertically */
             }
         }
     </style>
 </head>
 <body>
-    <div class="main-title">Sistema de Gestión de Sedes</div>
-    <div class="main-subtitle">Registra nuevas sedes para tu restaurante.</div>
+
+    <div class="main-title">Sistema de Gestión de Restaurantes</div>
+    <div class="main-subtitle">Registra nuevas materias primas para tus platos.</div>
 
     <div class="container">
-        <h1>Registrar Nueva Sede</h1>
+        <h1>Registrar Nueva Materia Prima</h1>
 
         <div th:if="${mensaje}" class="message success">
             <p th:text="${mensaje}"></p>
@@ -252,24 +234,27 @@
             <p th:text="${error}"></p>
         </div>
 
-        <form th:action="@{/sedes/registro}" th:object="${datosFormularioSede}" method="post">
+        <form th:action="@{/materias-primas/guardar}" th:object="${datosFormularioMateriaPrima}" method="post">
             <div class="form-group">
-                <label for="nombreSede">Nombre de la Sede:</label>
-                <input type="text" id="nombreSede" th:field="*{nombreSede}" required placeholder="Ej: Principal, Sur">
+                <label for="nombre">Nombre de la Materia Prima:</label>
+                <input type="text" id="nombre" th:field="*{nombre}" required placeholder="Ej: Harina de Trigo">
+                <p th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" class="message error"></p>
             </div>
 
             <div class="form-group">
-                <label for="direccion">Dirección:</label>
-                <input type="text" id="direccion" th:field="*{direccion}" placeholder="Ej: Calle 10 # 20-30">
+                <label for="unidadMedida">Unidad de Medida:</label>
+                <input type="text" id="unidadMedida" th:field="*{unidadMedida}" required placeholder="Ej: gramos, litros, unidades">
+                <p th:if="${#fields.hasErrors('unidadMedida')}" th:errors="*{unidadMedida}" class="message error"></p>
             </div>
 
-            <button type="submit">Registrar Sede</button>
+            <button type="submit">Registrar Materia Prima</button>
         </form>
 
         <div class="navigation-links">
-            <a th:href="@{/sedes/lista}">Ver Lista de Sedes</a>
+            <a th:href="@{/materias-primas/lista}">Ver Materias Primas</a>
             <a th:href="@{/}">Ir a Inicio</a>
         </div>
     </div>
+
 </body>
 </html>

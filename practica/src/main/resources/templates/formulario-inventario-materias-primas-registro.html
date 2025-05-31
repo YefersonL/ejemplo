@@ -3,26 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Sede | Mi Restaurante</title>
+    <title>Registrar Entrada de Inventario | Mi Restaurante</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <style>
         :root {
-            --purple-primary: #6D28D9; /* Púrpura principal (similar a los botones "Gestionar") */
+            --purple-primary: #6D28D9;
             --purple-dark: #5B21B6;
             --purple-darker: #4C1D95;
-            --blue-secondary: #3B82F6; /* Azul para botones secundarios (similar a "Añadir Nuevo") */
+            --blue-secondary: #3B82F6;
             --blue-dark: #2563EB;
-            --text-primary: #1F2937; /* Gris oscuro para texto */
+            --text-primary: #1F2937;
             --text-secondary: #4B5563;
-            --bg-page: #F3F4F6; /* Fondo de página gris muy claro */
+            --bg-page: #F3F4F6;
             --bg-card: #FFFFFF;
             --border-color: #D1D5DB;
             --border-focus-shadow: rgba(109, 40, 217, 0.25);
-            --success-bg: #D1FAE5; /* Un verde pastel para éxito */
+            --success-bg: #D1FAE5;
             --success-text: #065F46;
-            --error-bg: #FEE2E2; /* Un rojo pastel para error */
+            --error-bg: #FEE2E2;
             --error-text: #991B1B;
         }
 
@@ -49,6 +47,7 @@
             text-align: center;
             margin-bottom: 10px;
         }
+
         .main-subtitle {
             font-size: 1.1em;
             color: var(--text-secondary);
@@ -88,9 +87,6 @@
             font-size: 0.9em;
         }
 
-        input[type="text"],
-        textarea,
-        input[type="date"],
         input[type="number"],
         select {
             width: 100%;
@@ -104,19 +100,6 @@
             transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
-        input[type="text"]::placeholder,
-        textarea::placeholder {
-            color: #9CA3AF;
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
-        input[type="text"]:focus,
-        textarea:focus,
-        input[type="date"]:focus,
         input[type="number"]:focus,
         select:focus {
             border-color: var(--purple-primary);
@@ -239,37 +222,44 @@
     </style>
 </head>
 <body>
-    <div class="main-title">Sistema de Gestión de Sedes</div>
-    <div class="main-subtitle">Registra nuevas sedes para tu restaurante.</div>
 
-    <div class="container">
-        <h1>Registrar Nueva Sede</h1>
+<div class="main-title">Sistema de Inventario</div>
+<div class="main-subtitle">Registra nuevas entradas de materias primas para tu restaurante</div>
 
-        <div th:if="${mensaje}" class="message success">
-            <p th:text="${mensaje}"></p>
-        </div>
-        <div th:if="${error}" class="message error">
-            <p th:text="${error}"></p>
-        </div>
+<div class="container">
+    <h1>Registrar Nueva Entrada de Inventario</h1>
 
-        <form th:action="@{/sedes/registro}" th:object="${datosFormularioSede}" method="post">
-            <div class="form-group">
-                <label for="nombreSede">Nombre de la Sede:</label>
-                <input type="text" id="nombreSede" th:field="*{nombreSede}" required placeholder="Ej: Principal, Sur">
-            </div>
-
-            <div class="form-group">
-                <label for="direccion">Dirección:</label>
-                <input type="text" id="direccion" th:field="*{direccion}" placeholder="Ej: Calle 10 # 20-30">
-            </div>
-
-            <button type="submit">Registrar Sede</button>
-        </form>
-
-        <div class="navigation-links">
-            <a th:href="@{/sedes/lista}">Ver Lista de Sedes</a>
-            <a th:href="@{/}">Ir a Inicio</a>
-        </div>
+    <div th:if="${mensaje}" class="message success">
+        <p th:text="${mensaje}"></p>
     </div>
+    <div th:if="${error}" class="message error">
+        <p th:text="${error}"></p>
+    </div>
+
+    <form th:action="@{/inventario-materias-primas/guardar}" th:object="${datosFormularioInventario}" method="post">
+        <div class="form-group">
+            <label for="idMateriaPrima">Materia Prima:</label>
+            <select id="idMateriaPrima" th:field="*{idMateriaPrima}" required>
+                <option value="">Selecciona una Materia Prima</option>
+                <option th:each="mp : ${materiasPrimas}" th:value="${mp.idMateriaPrima}" th:text="${mp.nombre + ' (' + mp.unidadMedida + ')'}"></option>
+            </select>
+            <p th:if="${#fields.hasErrors('idMateriaPrima')}" th:errors="*{idMateriaPrima}" class="message error"></p>
+        </div>
+
+        <div class="form-group">
+            <label for="cantidadDisponible">Cantidad Disponible:</label>
+            <input type="number" id="cantidadDisponible" th:field="*{cantidadDisponible}" step="0.01" min="0.00" required placeholder="Ej: 500.00">
+            <p th:if="${#fields.hasErrors('cantidadDisponible')}" th:errors="*{cantidadDisponible}" class="message error"></p>
+        </div>
+
+        <button type="submit">Registrar Entrada</button>
+    </form>
+
+    <div class="navigation-links">
+        <a th:href="@{/inventario-materias-primas/lista}">Volver a Lista de Inventario</a>
+        <a th:href="@{/}">Ir a Inicio</a>
+    </div>
+</div>
+
 </body>
 </html>

@@ -3,26 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Sede | Mi Restaurante</title>
+    <title>Editar Nómina | Mi Restaurante</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
     <style>
         :root {
-            --purple-primary: #6D28D9; /* Púrpura principal (similar a los botones "Gestionar") */
+            --purple-primary: #6D28D9;
             --purple-dark: #5B21B6;
             --purple-darker: #4C1D95;
-            --blue-secondary: #3B82F6; /* Azul para botones secundarios (similar a "Añadir Nuevo") */
+            --blue-secondary: #3B82F6;
             --blue-dark: #2563EB;
-            --text-primary: #1F2937; /* Gris oscuro para texto */
+            --text-primary: #1F2937;
             --text-secondary: #4B5563;
-            --bg-page: #F3F4F6; /* Fondo de página gris muy claro */
+            --bg-page: #F3F4F6;
             --bg-card: #FFFFFF;
             --border-color: #D1D5DB;
             --border-focus-shadow: rgba(109, 40, 217, 0.25);
-            --success-bg: #D1FAE5; /* Un verde pastel para éxito */
+            --success-bg: #D1FAE5;
             --success-text: #065F46;
-            --error-bg: #FEE2E2; /* Un rojo pastel para error */
+            --error-bg: #FEE2E2;
             --error-text: #991B1B;
         }
 
@@ -125,7 +124,7 @@
         }
 
         button[type="submit"] {
-            background-color: var(--purple-primary);
+            background-color: #28a745; /* Color verde para actualizar */
             color: white;
             padding: 14px 20px;
             border: none;
@@ -140,12 +139,12 @@
         }
 
         button[type="submit"]:hover {
-            background-color: var(--purple-dark);
+            background-color: #218838; /* Verde más oscuro */
             transform: translateY(-1px);
         }
 
         button[type="submit"]:active {
-            background-color: var(--purple-darker);
+            background-color: #1e7e34;
             transform: translateY(0);
         }
 
@@ -196,54 +195,38 @@
             border: 1px solid #FECACA;
         }
 
+        .error-message {
+            color: var(--error-text);
+            font-size: 0.85em;
+            margin-top: 5px;
+            margin-bottom: 0;
+            font-weight: 500;
+        }
+
         @media (max-width: 768px) {
-            body {
-                padding-top: 20px;
-            }
-            .main-title {
-                font-size: 2.2em;
-            }
-            .main-subtitle {
-                font-size: 1em;
-                margin-bottom: 30px;
-            }
-            .container {
-                padding: 25px 30px;
-                max-width: 90%;
-                margin-top: 0;
-            }
-            .container h1 {
-                font-size: 1.6em;
-            }
+            body { padding-top: 20px; }
+            .main-title { font-size: 2.2em; }
+            .main-subtitle { font-size: 1em; margin-bottom: 30px; }
+            .container { padding: 25px 30px; max-width: 90%; margin-top: 0; }
+            .container h1 { font-size: 1.6em; }
         }
 
         @media (max-width: 480px) {
-            .main-title {
-                font-size: 1.8em;
-            }
-            .main-subtitle {
-                font-size: 0.9em;
-            }
-            .container {
-                padding: 20px;
-                border-radius: 12px;
-            }
-            button[type="submit"], .navigation-links a {
-                font-size: 0.95em;
-                padding: 12px 15px;
-            }
-            .navigation-links {
-                flex-direction: column;
-            }
+            .main-title { font-size: 1.8em; }
+            .main-subtitle { font-size: 0.9em; }
+            .container { padding: 20px; border-radius: 12px; }
+            button[type="submit"], .navigation-links a { font-size: 0.95em; padding: 12px 15px; }
+            .navigation-links { flex-direction: column; }
         }
     </style>
 </head>
 <body>
-    <div class="main-title">Sistema de Gestión de Sedes</div>
-    <div class="main-subtitle">Registra nuevas sedes para tu restaurante.</div>
+
+    <div class="main-title">Sistema de Nóminas</div>
+    <div class="main-subtitle">Edita los detalles de una nómina existente.</div>
 
     <div class="container">
-        <h1>Registrar Nueva Sede</h1>
+        <h1>Editar Nómina</h1>
 
         <div th:if="${mensaje}" class="message success">
             <p th:text="${mensaje}"></p>
@@ -252,24 +235,49 @@
             <p th:text="${error}"></p>
         </div>
 
-        <form th:action="@{/sedes/registro}" th:object="${datosFormularioSede}" method="post">
+        <form th:action="@{/nominas/actualizar/{id}(id=${idNomina})}" th:object="${datosFormularioNomina}" method="post">
             <div class="form-group">
-                <label for="nombreSede">Nombre de la Sede:</label>
-                <input type="text" id="nombreSede" th:field="*{nombreSede}" required placeholder="Ej: Principal, Sur">
+                <label for="idNomina">ID Nómina (No editable):</label>
+                <input type="text" id="idNomina" th:field="*{idNomina}" readonly style="background-color: #e9ecef; cursor: not-allowed;">
             </div>
 
             <div class="form-group">
-                <label for="direccion">Dirección:</label>
-                <input type="text" id="direccion" th:field="*{direccion}" placeholder="Ej: Calle 10 # 20-30">
+                <label for="cedulaEmpleado">Empleado:</label>
+                <select id="cedulaEmpleado" th:field="*{cedulaEmpleado}" required>
+                    <option th:each="empleado : ${empleados}"
+                            th:value="${empleado.cedula}"
+                            th:text="${empleado.nombres + ' (' + empleado.cedula + ')'}"
+                            th:selected="${empleado.cedula == datosFormularioNomina.cedulaEmpleado}">Nombre Empleado</option>
+                </select>
+                <p th:if="${#fields.hasErrors('cedulaEmpleado')}" th:errors="*{cedulaEmpleado}" class="error-message"></p>
             </div>
 
-            <button type="submit">Registrar Sede</button>
+            <div class="form-group">
+                <label for="fechaPago">Fecha de Pago:</label>
+                <input type="date" id="fechaPago" th:field="*{fechaPago}" required>
+                <p th:if="${#fields.hasErrors('fechaPago')}" th:errors="*{fechaPago}" class="error-message"></p>
+            </div>
+
+            <div class="form-group">
+                <label for="horasTrabajadas">Horas Trabajadas:</label>
+                <input type="number" id="horasTrabajadas" th:field="*{horasTrabajadas}" required min="0">
+                <p th:if="${#fields.hasErrors('horasTrabajadas')}" th:errors="*{horasTrabajadas}" class="error-message"></p>
+            </div>
+
+            <div class="form-group">
+                <label for="bonificaciones">Bonificaciones:</label>
+                <input type="number" id="bonificaciones" th:field="*{bonificaciones}" step="0.01" required min="0.00">
+                <p th:if="${#fields.hasErrors('bonificaciones')}" th:errors="*{bonificaciones}" class="error-message"></p>
+            </div>
+
+            <button type="submit"><i class="fas fa-sync-alt"></i> Actualizar Nómina</button>
         </form>
 
         <div class="navigation-links">
-            <a th:href="@{/sedes/lista}">Ver Lista de Sedes</a>
-            <a th:href="@{/}">Ir a Inicio</a>
+            <a th:href="@{/nominas/lista}"><i class="fas fa-arrow-left"></i> Volver a la Lista de Nóminas</a>
+            <a th:href="@{/}"><i class="fas fa-home"></i> Ir a Inicio</a>
         </div>
     </div>
+
 </body>
 </html>

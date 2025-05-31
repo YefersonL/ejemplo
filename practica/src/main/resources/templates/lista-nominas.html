@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Espacios | Mi Restaurante</title>
+    <title>Lista de Nóminas | Mi Restaurante</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -22,7 +22,7 @@
             --success-text: #065F46;
             --error-bg: #FEE2E2;
             --error-text: #991B1B;
-            --table-header-bg: #6D28D9; /* Using purple for table header */
+            --table-header-bg: #6D28D9;
         }
 
         body {
@@ -48,7 +48,6 @@
             text-align: center;
             margin-bottom: 10px;
         }
-
         .main-subtitle {
             font-size: 1.1em;
             color: var(--text-secondary);
@@ -63,7 +62,7 @@
             border-radius: 16px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 6px 10px rgba(0,0,0,0.06);
             width: 100%;
-            max-width: 1000px; /* Adjusted max-width for better table display */
+            max-width: 1200px;
             box-sizing: border-box;
         }
 
@@ -77,8 +76,8 @@
         }
 
         .add-new-button {
-            display: inline-flex;
-            align-items: center;
+            display: inline-flex; /* Usar flex para alinear icono y texto */
+            align-items: center; /* Centrar verticalmente */
             background-color: var(--purple-primary);
             color: white;
             text-decoration: none;
@@ -104,19 +103,19 @@
         }
 
         .table-container {
-            overflow-x: auto;
+            overflow-x: auto; /* Permite scroll horizontal en pantallas pequeñas */
             border-radius: 10px;
             margin-bottom: 25px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
-            border: 1px solid var(--border-color);
+            border: 1px solid var(--border-color); /* Borde sutil al contenedor de la tabla */
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
             background: white;
-            border-radius: 10px;
-            overflow: hidden;
+            border-radius: 10px; /* Bordes redondeados para la tabla en sí */
+            overflow: hidden; /* Asegura que los bordes redondeados se apliquen al contenido */
         }
 
         thead {
@@ -134,64 +133,67 @@
         }
 
         tbody tr {
-            border-bottom: 1px solid #eef2f7;
+            border-bottom: 1px solid #eef2f7; /* Separador sutil entre filas */
             transition: background-color 0.2s;
         }
 
         tbody tr:nth-child(even) {
-            background-color: #f8fafc;
+            background-color: #f8fafc; /* Color de fondo alterno */
         }
 
         tbody tr:hover {
-            background-color: #f0e9ff;
+            background-color: #f0e9ff; /* Fondo más claro al pasar el ratón */
         }
 
         td {
             padding: 15px;
             color: var(--text-primary);
-            vertical-align: middle;
         }
 
         .actions {
             display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
+            gap: 10px; /* Espacio entre botones de acción */
+            flex-wrap: wrap; /* Permite que los botones se envuelvan en pantallas pequeñas */
         }
 
-        .edit, .delete {
+        .actions a, .actions button {
             padding: 8px 15px;
             border-radius: 5px;
             font-weight: 500;
             font-size: 14px;
             transition: all 0.2s ease;
-            display: inline-flex;
+            display: inline-flex; /* Para alinear icono y texto */
             align-items: center;
-            text-decoration: none;
+            text-decoration: none; /* Quitar subrayado en enlaces */
         }
 
-        .edit {
+        .actions a.edit {
             background-color: var(--blue-secondary);
             color: white;
             border: none;
             cursor: pointer;
         }
 
-        .edit:hover {
+        .actions a.edit:hover {
             background-color: var(--blue-dark);
             transform: translateY(-2px);
         }
 
-        .delete {
-            background-color: #e74c3c;
+        .actions button.delete {
+            background-color: #e74c3c; /* Rojo para eliminar */
             color: white;
             border: none;
             cursor: pointer;
-            font-family: 'Montserrat', sans-serif;
+            font-family: 'Montserrat', sans-serif; /* Asegurar que use la misma fuente */
         }
 
-        .delete:hover {
-            background-color: #c0392b;
+        .actions button.delete:hover {
+            background-color: #c0392b; /* Rojo más oscuro */
             transform: translateY(-2px);
+        }
+
+        .actions i {
+            margin-right: 5px; /* Espacio entre icono y texto en botones de acción */
         }
 
         .no-records {
@@ -202,14 +204,18 @@
             border-radius: 8px;
             color: var(--text-secondary);
             font-size: 18px;
-            border: 1px dashed var(--border-color);
+            border: 1px dashed var(--border-color); /* Borde punteado para indicar vacío */
         }
 
         .no-records i {
-            font-size: 24px;
-            margin-bottom: 10px;
-            color: #95a5a6;
-            display: block;
+            font-size: 36px; /* Icono más grande */
+            margin-bottom: 15px;
+            color: #9CA3AF; /* Color gris suave */
+        }
+
+        .no-records p {
+            margin: 0;
+            font-weight: 500;
         }
 
         .message {
@@ -239,6 +245,7 @@
             display: flex;
             gap: 15px;
             justify-content: center;
+            flex-wrap: wrap; /* Permitir que los enlaces se envuelvan */
         }
 
         .navigation-links a {
@@ -250,7 +257,8 @@
             border-radius: 8px;
             transition: background-color 0.2s ease, transform 0.1s ease;
             font-size: 0.95em;
-            display: inline-block;
+            display: inline-flex; /* Para alinear icono y texto */
+            align-items: center;
         }
 
         .navigation-links a:hover {
@@ -259,70 +267,56 @@
             transform: translateY(-1px);
         }
 
-        /* Media Queries for Responsiveness */
-        @media (max-width: 1024px) {
+        .navigation-links a i {
+            margin-right: 8px;
+        }
+
+        /* Media Queries para responsividad */
+        @media (max-width: 992px) {
             .table-container {
-                overflow-x: auto;
+                overflow-x: auto; /* Asegura scroll en tablas anchas */
             }
             table {
-                min-width: 700px; /* Adjust min-width if columns are still too narrow */
+                min-width: 700px; /* Ancho mínimo para evitar que se comprima demasiado */
             }
         }
 
         @media (max-width: 768px) {
-            .container {
-                padding: 20px;
-            }
-            .main-title {
-                font-size: 2.2em;
-            }
-            .main-subtitle {
-                font-size: 1em;
-                margin-bottom: 30px;
-            }
+            .container { padding: 20px; }
+            .main-title { font-size: 2.2em; }
+            .main-subtitle { font-size: 1em; margin-bottom: 30px; }
             .actions {
-                flex-direction: column;
-                align-items: flex-start;
+                flex-direction: column; /* Apilar botones de acción */
+                align-items: flex-start; /* Alinear al inicio */
             }
-            .edit, .delete {
-                width: 100%;
-                justify-content: center;
+            .actions a, .actions button {
+                width: 100%; /* Ocupar todo el ancho disponible */
+                justify-content: center; /* Centrar texto y icono */
             }
             .navigation-links {
-                flex-direction: column;
+                flex-direction: column; /* Apilar enlaces de navegación */
                 align-items: center;
                 gap: 15px;
-            }
-            th, td {
-                padding: 12px;
             }
         }
 
         @media (max-width: 480px) {
-            .main-title {
-                font-size: 1.8em;
-            }
-            .main-subtitle {
-                font-size: 0.9em;
-            }
-            .container {
-                padding: 20px;
-                border-radius: 12px;
-            }
-            .add-new-button, .navigation-links a {
-                font-size: 0.95em;
-                padding: 12px 15px;
-            }
+            .main-title { font-size: 1.8em; }
+            .main-subtitle { font-size: 0.9em; }
+            .container { padding: 20px; border-radius: 12px; }
+            .add-new-button, .navigation-links a { font-size: 0.9em; padding: 10px 15px; }
+            th, td { padding: 10px; font-size: 0.9em; }
+            .no-records i { font-size: 30px; }
         }
     </style>
 </head>
 <body>
 
-    <div class="main-title">Sistema de Gestión de Restaurantes</div>
-    <div class="main-subtitle">Administra los espacios de tus sedes.</div>
+    <div class="main-title">Sistema de Nóminas</div>
+    <div class="main-subtitle">Lista de nóminas registradas para los empleados.</div>
 
     <div class="container">
-        <h1>Listado de Espacios</h1>
+        <h1>Lista de Nóminas</h1>
 
         <div th:if="${mensaje}" class="message success">
             <p th:text="${mensaje}"></p>
@@ -331,35 +325,39 @@
             <p th:text="${error}"></p>
         </div>
 
-        <a th:href="@{/espacios/registro}" class="add-new-button">
-            <i class="fas fa-plus-circle"></i> Registrar Nuevo Espacio
+        <a th:href="@{/nominas/registro}" class="add-new-button">
+            <i class="fas fa-plus-circle"></i> Registrar Nueva Nómina
         </a>
 
         <div class="table-container">
-            <table th:if="${not #lists.isEmpty(espacios)}">
+            <table th:if="${!#lists.isEmpty(nominas)}">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Sede</th>
-                        <th>Nombre del Espacio</th>
-                        <th>Tipo de Espacio</th>
-                        <th>Capacidad</th>
+                        <th>ID Nómina</th>
+                        <th>Cédula Empleado</th>
+                        <th>Nombre Empleado</th>
+                        <th>Fecha de Pago</th>
+                        <th>Horas Trabajadas</th>
+                        <th>Bonificaciones</th>
+                        <th>Salario Neto</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="espacio : ${espacios}">
-                        <td th:text="${espacio.id_Espacio}"></td>
-                        <td th:text="${espacio.sede != null ? espacio.sede.nombre_Sede : 'N/A'}"></td>
-                        <td th:text="${espacio.nombre_Espacio}"></td>
-                        <td th:text="${espacio.tipo_Espacio}"></td>
-                        <td th:text="${espacio.capacidad}"></td>
+                    <tr th:each="nomina : ${nominas}">
+                        <td th:text="${nomina.idNomina}"></td>
+                        <td th:text="${nomina.empleado.cedula}"></td>
+                        <td th:text="${nomina.empleado.nombres}"></td>
+                        <td th:text="${#temporals.format(nomina.fechaPago, 'dd/MM/yyyy')}"></td>
+                        <td th:text="${nomina.horasTrabajadas}"></td>
+                        <td th:text="${#numbers.formatDecimal(nomina.bonificaciones, 0, 'POINT', 2, 'COMMA')}"></td>
+                        <td th:text="${#numbers.formatDecimal(nomina.salarioNeto, 0, 'POINT', 2, 'COMMA')}"></td>
                         <td class="actions">
-                            <a th:href="@{/espacios/editar/{id}(id=${espacio.id_Espacio})}" class="edit">
+                            <a th:href="@{/nominas/editar/{id}(id=${nomina.idNomina})}" class="edit">
                                 <i class="fas fa-edit"></i> Editar
                             </a>
-                            <form th:action="@{/espacios/eliminar/{id}(id=${espacio.id_Espacio})}" method="post" style="display:inline;">
-                                <button type="submit" class="delete" onclick="return confirm('¿Estás seguro de que quieres eliminar este espacio?');">
+                            <form th:action="@{/nominas/eliminar/{id}(id=${nomina.idNomina})}" method="post" style="display:inline;">
+                                <button type="submit" class="delete" onclick="return confirm('¿Estás seguro de que quieres eliminar esta nómina? Esta acción no se puede deshacer.');">
                                     <i class="fas fa-trash-alt"></i> Eliminar
                                 </button>
                             </form>
@@ -368,16 +366,29 @@
                 </tbody>
             </table>
         </div>
-
-        <div th:if="${#lists.isEmpty(espacios)}" class="no-records">
-            <i class="fas fa-chair"></i> <p>No hay espacios registrados. ¡Empieza añadiendo uno!</p>
+        
+        <div th:if="${#lists.isEmpty(nominas)}" class="no-records">
+            <i class="fas fa-inbox"></i>
+            <p>No hay nóminas registradas. ¡Empieza añadiendo una!</p>
         </div>
 
         <div class="navigation-links">
-            <a th:href="@{/espacios/registro}">Registrar Nuevo Espacio</a>
-            <a th:href="@{/espacios/lista}">Actualizar Lista</a>
-            <a th:href="@{/}">Ir a Inicio</a>
+            <a th:href="@{/nominas/registro}"><i class="fas fa-plus"></i> Registrar Nueva Nómina</a>
+            <a th:href="@{/nominas/lista}"><i class="fas fa-sync"></i> Actualizar Lista</a>
+            <a th:href="@{/}"><i class="fas fa-home"></i> Ir a Inicio</a>
         </div>
     </div>
+
+    <script>
+        // Script para la confirmación de eliminación (opcional, ya lo tenías)
+        document.querySelectorAll('.delete').forEach(button => {
+            button.addEventListener('click', function(e) {
+                // El `onclick` en el HTML ya maneja esto, pero tenerlo aquí es buena práctica
+                // if (!confirm('¿Estás seguro de que quieres eliminar esta nómina? Esta acción no se puede deshacer.')) {
+                //     e.preventDefault();
+                // }
+            });
+        });
+    </script>
 </body>
 </html>
