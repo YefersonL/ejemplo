@@ -1,11 +1,194 @@
 <!DOCTYPE html>
-<html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Registro Exitoso</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>¡Registro Exitoso! | Mi Restaurante</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght=700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --purple-primary: #6D28D9;
+            --purple-dark: #5B21B6;
+            --blue-secondary: #3B82F6;
+            --blue-dark: #2563EB;
+            --text-primary: #1F2937;
+            --text-secondary: #4B5563;
+            --bg-page: #F3F4F6;
+            --bg-card: #FFFFFF;
+            --success-bg: #D1FAE5;
+            --success-text: #065F46;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            background-color: var(--bg-page);
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center; /* Center content vertically */
+            min-height: 100vh;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .main-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8em;
+            font-weight: 700;
+            color: var(--purple-primary);
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .main-subtitle {
+            font-size: 1.1em;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 40px;
+            max-width: 500px;
+        }
+
+        .container {
+            background-color: var(--bg-card);
+            padding: 40px 50px; /* Increased padding for a more substantial feel */
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 6px 10px rgba(0,0,0,0.06);
+            width: 100%;
+            max-width: 600px; /* Adjusted max-width for success message */
+            text-align: center; /* Center content within the container */
+            box-sizing: border-box;
+        }
+
+        .success-icon {
+            color: var(--success-text);
+            font-size: 5em; /* Larger icon */
+            margin-bottom: 20px;
+        }
+
+        .container h1 {
+            font-family: 'Montserrat', sans-serif;
+            color: var(--success-text); /* Green for success */
+            margin-bottom: 15px;
+            font-size: 2.2em; /* Slightly larger heading */
+            font-weight: 700;
+        }
+
+        .container p {
+            font-size: 1.1em;
+            color: var(--text-primary);
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .navigation-links {
+            display: flex;
+            gap: 20px; /* Increased gap */
+            justify-content: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .navigation-links a {
+            background-color: var(--blue-secondary);
+            color: white;
+            text-decoration: none;
+            font-weight: 600; /* Bolder text */
+            padding: 12px 25px; /* Larger padding */
+            border-radius: 8px;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            font-size: 1em; /* Consistent font size */
+            display: inline-flex; /* For icon alignment */
+            align-items: center;
+            gap: 8px; /* Space between icon and text */
+        }
+
+        .navigation-links a:hover {
+            background-color: var(--blue-dark);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 30px;
+            }
+            .main-title {
+                font-size: 2.2em;
+            }
+            .main-subtitle {
+                font-size: 1em;
+                margin-bottom: 30px;
+            }
+            .container h1 {
+                font-size: 1.8em;
+            }
+            .container p {
+                font-size: 1em;
+            }
+            .navigation-links {
+                flex-direction: column;
+                align-items: center;
+            }
+            .navigation-links a {
+                width: 80%; /* Make links take more width on small screens */
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-title {
+                font-size: 1.8em;
+            }
+            .main-subtitle {
+                font-size: 0.9em;
+            }
+            .container {
+                padding: 25px;
+                border-radius: 12px;
+            }
+            .success-icon {
+                font-size: 4em;
+            }
+            .container h1 {
+                font-size: 1.6em;
+            }
+            .container p {
+                font-size: 0.9em;
+            }
+            .navigation-links a {
+                padding: 10px 15px;
+                font-size: 0.95em;
+            }
+        }
+    </style>
 </head>
 <body>
-<h1>¡Registro Exitoso!</h1>
-<p>Los datos han sido guardados correctamente.</p>
-<a href="/">Volver al formulario</a>
+
+<div class="main-title">Sistema de Gestión de Horarios</div>
+<div class="main-subtitle">Operación completada con éxito.</div>
+
+<div class="container">
+    <div class="success-icon">
+        <i class="fas fa-check-circle"></i>
+    </div>
+    <h1>¡Registro Exitoso!</h1>
+    <p>Los datos han sido guardados correctamente.</p>
+
+    <div class="navigation-links">
+        <a th:href="@{/horarios/lista}">
+            <i class="fas fa-list"></i> Ver Horarios
+        </a>
+        <a th:href="@{/horarios/registro}">
+            <i class="fas fa-plus-circle"></i> Registrar Otro Horario
+        </a>
+        <a th:href="@{/}">
+            <i class="fas fa-home"></i> Ir a Inicio
+        </a>
+    </div>
+</div>
+
 </body>
 </html>
