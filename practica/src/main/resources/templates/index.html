@@ -227,6 +227,15 @@
             </div>
 
             <div class="menu-item">
+                <h2>Mesas</h2>
+                <p class="description">Administra las mesas en cada uno de tus espacios: número, estado y capacidad.</p>
+                <div class="button-group">
+                    <a th:href="@{/mesas/lista}" class="manage-btn">Gestionar Mesas</a>
+                    <a th:href="@{/mesas/registro}">Añadir Nueva</a>
+                </div>
+            </div>
+
+            <div class="menu-item">
                 <h2>Áreas</h2>
                 <p class="description">Gestiona las diferentes áreas de tu restaurante (ej. Cocina, Salón, Administración).</p>
                 <div class="button-group">
@@ -272,8 +281,7 @@
                     <a th:href="@{/nominas/registro}">Registrar Nueva</a>
                 </div>
             </div>
-        </div>
-
+            </div>
     </div>
 </body>
 </html>

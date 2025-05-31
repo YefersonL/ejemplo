@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Mesa | Mi Restaurante</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --purple-primary: #6D28D9; /* Púrpura principal */
+            --purple-dark: #5B21B6;
+            --purple-darker: #4C1D95;
+            --blue-secondary: #3B82F6; /* Azul para botones secundarios/links */
+            --blue-dark: #2563EB;
+            --text-primary: #1F2937; /* Gris oscuro para texto */
+            --text-secondary: #4B5563;
+            --bg-page: #F3F4F6; /* Fondo de página gris muy claro */
+            --bg-card: #FFFFFF;
+            --border-color: #D1D5DB;
+            --border-focus-shadow: rgba(109, 40, 217, 0.25);
+            --success-bg: #D1FAE5; /* Un verde pastel para éxito */
+            --success-text: #065F46;
+            --error-bg: #FEE2E2; /* Un rojo pastel para error */
+            --error-text: #991B1B;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            background-color: var(--bg-page);
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding-top: 40px;
+            padding-bottom: 40px;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+
+        .main-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8em;
+            font-weight: 700;
+            color: var(--purple-primary);
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .main-subtitle {
+            font-size: 1.1em;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 40px;
+            max-width: 500px;
+        }
+
+        .container {
+            background-color: var(--bg-card);
+            padding: 30px 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 6px 10px rgba(0,0,0,0.06);
+            width: 100%;
+            max-width: 600px;
+            box-sizing: border-box;
+        }
+
+        .container h1 {
+            font-family: 'Montserrat', sans-serif;
+            text-align: center;
+            color: var(--purple-primary);
+            margin-bottom: 30px;
+            font-size: 1.8em;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 0.9em;
+        }
+
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 12px 15px;
+            box-sizing: border-box;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-primary);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+            appearance: none; /* Remove default select styling */
+            background-color: white; /* Ensure white background for select */
+            background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%236D28D9%22%20d%3D%22M287%2C114.3L146.2%2C255.1L5.4%2C114.3H287z%22%2F%3E%3C%2Fsvg%3E'); /* Custom arrow for select */
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 12px;
+            cursor: pointer;
+        }
+
+        input[type="text"]:focus, input[type="number"]:focus, select:focus {
+            border-color: var(--purple-primary);
+            outline: none;
+            box-shadow: 0 0 0 3px var(--border-focus-shadow);
+        }
+
+        button[type="submit"] {
+            background-color: var(--purple-primary);
+            color: white;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.05em;
+            font-weight: 600;
+            width: 100%;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            letter-spacing: 0.5px;
+            margin-top: 10px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: var(--purple-dark);
+            transform: translateY(-1px);
+        }
+
+        button[type="submit"]:active {
+            background-color: var(--purple-darker);
+            transform: translateY(0);
+        }
+
+        .navigation-links {
+            text-align: center;
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .navigation-links a {
+            background-color: var(--blue-secondary);
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            font-size: 0.95em;
+            display: inline-block;
+        }
+
+        .navigation-links a:hover {
+            background-color: var(--blue-dark);
+            text-decoration: none;
+            transform: translateY(-1px);
+        }
+
+        .message {
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+            font-size: 0.95em;
+        }
+
+        .message.success {
+            background-color: var(--success-bg);
+            color: var(--success-text);
+            border: 1px solid #A7F3D0;
+        }
+
+        .message.error {
+            background-color: var(--error-bg);
+            color: var(--error-text);
+            border: 1px solid #FECACA;
+        }
+
+        .error-message {
+            color: var(--error-text);
+            font-size: 0.85em;
+            margin-top: 5px;
+            display: block;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-top: 20px;
+            }
+            .main-title {
+                font-size: 2.2em;
+            }
+            .main-subtitle {
+                font-size: 1em;
+                margin-bottom: 30px;
+            }
+            .container {
+                padding: 25px 30px;
+                max-width: 90%;
+                margin-top: 0;
+            }
+            .container h1 {
+                font-size: 1.6em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-title {
+                font-size: 1.8em;
+            }
+            .main-subtitle {
+                font-size: 0.9em;
+            }
+            .container {
+                padding: 20px;
+                border-radius: 12px;
+            }
+            button[type="submit"], .navigation-links a {
+                font-size: 0.95em;
+                padding: 12px 15px;
+            }
+            .navigation-links {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-title">Sistema de Gestión de Restaurantes</div>
+    <div class="main-subtitle">Registra nuevas mesas en tus espacios.</div>
+
+    <div class="container">
+        <h1>Registrar Nueva Mesa</h1>
+
+        <div th:if="${mensaje}" class="message success">
+            <p th:text="${mensaje}"></p>
+        </div>
+        <div th:if="${error}" class="message error">
+            <p th:text="${error}"></p>
+        </div>
+
+        <form th:action="@{/mesas/registro}" th:object="${datosFormularioMesa}" method="post">
+            <div class="form-group">
+                <label for="idEspacio">Espacio:</label>
+                <select id="idEspacio" th:field="*{idEspacio}" required>
+                    <option value="" disabled selected>-- Selecciona un espacio --</option>
+                    <option th:each="espacio : ${espacios}" th:value="${espacio.id_Espacio}" th:text="${espacio.nombre_Espacio}"></option>
+                </select>
+                </div>
+
+            <div class="form-group">
+                <label for="numeroMesa">Número de Mesa:</label>
+                <input type="number" id="numeroMesa" th:field="*{numeroMesa}" required placeholder="Ej: 1, 15">
+                </div>
+
+            <div class="form-group">
+                <label for="estadoMesa">Estado de la Mesa:</label>
+                <select id="estadoMesa" th:field="*{estadoMesa}" required>
+                    <option value="Disponible">Disponible</option>
+                    <option value="Ocupada">Ocupada</option>
+                    <option value="Reservada">Reservada</option>
+                    <option value="Limpieza">Limpieza</option>
+                    <option value="Inhabilitada">Inhabilitada</option>
+                </select>
+                </div>
+
+            <div class="form-group">
+                <label for="capacidadMesa">Capacidad de la Mesa:</label>
+                <input type="number" id="capacidadMesa" th:field="*{capacidadMesa}" placeholder="Ej: 4, 8">
+                </div>
+
+            <button type="submit">Registrar Mesa</button>
+        </form>
+
+        <div class="navigation-links">
+            <a th:href="@{/mesas/lista}">Ver Listado de Mesas</a>
+            <a th:href="@{/}">Ir a Inicio</a>
+        </div>
+    </div>
+</body>
+</html>
