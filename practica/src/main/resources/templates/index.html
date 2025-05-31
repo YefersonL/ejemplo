@@ -30,7 +30,7 @@
             width: 90%;
             animation: fadeIn 1s ease-in-out;
             overflow-y: auto; /* Añadimos scroll vertical solo al contenedor si su contenido excede su altura */
-            max-height: 90vh; /* O un valor que consideres apropiado para dejar espacio para el navegador */
+            max-height: 150vh; /* O un valor que consideres apropiado para dejar espacio para el navegador */
         }
 
         @keyframes fadeIn {
@@ -192,7 +192,16 @@
                     <a th:href="@{/sedes/registro}">Añadir Nueva</a>
                 </div>
             </div>
-        </div>
+
+            <div class="menu-item">
+                <h2>PQRS</h2>
+                <p class="description">Gestiona Peticiones, Quejas, Reclamos y Sugerencias de los clientes.</p>
+                <div class="button-group">
+                    <a th:href="@{/pqrs/lista}" class="manage-btn">Gestionar PQRS</a>
+                    <a th:href="@{/pqrs/registro}">Registrar Nueva</a>
+                </div>
+            </div>
+            </div>
     </div>
 </body>
 </html>
