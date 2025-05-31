@@ -185,6 +185,15 @@
             </div>
 
             <div class="menu-item">
+                <h2>Horarios</h2>
+                <p class="description">Gestiona los horarios de trabajo de tus empleados por día y hora de entrada/salida.</p>
+                <div class="button-group">
+                    <a th:href="@{/horarios/lista}" class="manage-btn">Gestionar Horarios</a>
+                    <a th:href="@{/horarios/registro}">Añadir Nuevo</a>
+                </div>
+            </div>
+
+            <div class="menu-item">
                 <h2>Espacios</h2>
                 <p class="description">Gestiona los diferentes espacios dentro de tus sedes (ej. Salones, Cocinas).</p>
                 <div class="button-group">
@@ -228,7 +237,7 @@
                     <a th:href="@{/pqrs/registro}">Registrar Nueva</a>
                 </div>
             </div>
-            </div>
+        </div>
     </div>
 </body>
 </html>

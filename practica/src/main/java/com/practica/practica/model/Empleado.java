@@ -6,7 +6,12 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany; // Importar OneToMany
 import jakarta.persistence.Table;
+import java.util.HashSet; // Opcional, para Set
+import java.util.Set; // Opcional, para Set
+// import java.util.ArrayList; // Opcional, para List
+// import java.util.List; // Opcional, para List
 
 @Entity
 @Table(name = "Empleado")
@@ -45,6 +50,14 @@ public class Empleado {
     @JoinColumn(name = "ID_Area", nullable = false) // FK en Empleado
     private Area area; // Campo para la relación con Area
 
+    // --- Nueva relación: Uno a Muchos con Horario ---
+    @OneToMany(mappedBy = "empleado", fetch = FetchType.LAZY)
+    // 'mappedBy' indica que la propiedad 'empleado' en la clase Horario es la que
+    // posee la relación (contiene la clave foránea).
+    // FetchType.LAZY es generalmente recomendado para colecciones grandes para evitar
+    // cargar todos los horarios cuando solo necesitas el empleado.
+    private Set<Horario> horarios = new HashSet<>(); // Usa Set para evitar duplicados, o List si el orden importa
+
     // Constructores
     public Empleado() {
     }
@@ -60,6 +73,23 @@ public class Empleado {
         this.cargo = cargo;
         this.area = area;
     }
+
+    // --- Constructor actualizado para incluir horarios (opcional, pero útil) ---
+    public Empleado(String cedula, String nombres, String numeroContacto, String correoCorporativo,
+                    Restaurante restaurante, Sede sede, Cargo1 cargo, Area area, Set<Horario> horarios) {
+        this.cedula = cedula;
+        this.nombres = nombres;
+        this.numeroContacto = numeroContacto;
+        this.correoCorporativo = correoCorporativo;
+        this.restaurante = restaurante;
+        this.sede = sede;
+        this.cargo = cargo;
+        this.area = area;
+        if (horarios != null) {
+            this.horarios = horarios;
+        }
+    }
+
 
     // Getters y Setters
     public String getCedula() {
@@ -126,6 +156,27 @@ public class Empleado {
         this.area = area;
     }
 
+    // --- Nuevo Getter y Setter para la colección de Horarios ---
+    public Set<Horario> getHorarios() {
+        return horarios;
+    }
+
+    public void setHorarios(Set<Horario> horarios) {
+        this.horarios = horarios;
+    }
+
+    // --- Métodos de conveniencia para manejar la colección (buenas prácticas) ---
+    public void addHorario(Horario horario) {
+        this.horarios.add(horario);
+        horario.setEmpleado(this); // Asegura la bidireccionalidad de la relación
+    }
+
+    public void removeHorario(Horario horario) {
+        this.horarios.remove(horario);
+        horario.setEmpleado(null); // Desvincula el horario del empleado
+    }
+
+
     @Override
     public String toString() {
         return "Empleado{" +
@@ -137,6 +188,7 @@ public class Empleado {
                 ", sede=" + (sede != null ? sede.getNombre_Sede() : "N/A") +
                 ", cargo=" + (cargo != null ? cargo.getNombre_Cargo() : "N/A") +
                 ", area=" + (area != null ? area.getNombre_Area() : "N/A") +
+                ", numHorarios=" + (horarios != null ? horarios.size() : 0) + // Agregado para ver el número de horarios
                 '}';
     }
 }

@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Horarios | Mi Restaurante</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght=700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --purple-primary: #6D28D9;
+            --purple-dark: #5B21B6;
+            --purple-darker: #4C1D95;
+            --blue-secondary: #3B82F6;
+            --blue-dark: #2563EB;
+            --text-primary: #1F2937;
+            --text-secondary: #4B5563;
+            --bg-page: #F3F4F6;
+            --bg-card: #FFFFFF;
+            --border-color: #D1D5DB;
+            --success-bg: #D1FAE5;
+            --success-text: #065F46;
+            --error-bg: #FEE2E2;
+            --error-text: #991B1B;
+            --table-header-bg: #6D28D9;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            background-color: var(--bg-page);
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding-top: 40px;
+            padding-bottom: 40px;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+
+        .main-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8em;
+            font-weight: 700;
+            color: var(--purple-primary);
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .main-subtitle {
+            font-size: 1.1em;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 40px;
+            max-width: 500px;
+        }
+
+        .container {
+            background-color: var(--bg-card);
+            padding: 30px 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 6px 10px rgba(0,0,0,0.06);
+            width: 100%;
+            max-width: 1200px;
+            box-sizing: border-box;
+        }
+
+        .container h1 {
+            font-family: 'Montserrat', sans-serif;
+            text-align: center;
+            color: var(--purple-primary);
+            margin-bottom: 30px;
+            font-size: 1.8em;
+            font-weight: 600;
+        }
+
+        .add-new-button {
+            display: inline-block;
+            background-color: var(--purple-primary);
+            color: white;
+            text-decoration: none;
+            padding: 14px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .add-new-button:hover {
+            background-color: var(--purple-dark);
+            transform: translateY(-2px);
+        }
+
+        .add-new-button i {
+            margin-right: 8px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+            border: 1px solid var(--border-color);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        thead {
+            background: linear-gradient(90deg, var(--purple-primary) 0%, var(--purple-dark) 100%);
+            color: white;
+        }
+
+        th {
+            padding: 16px 15px;
+            text-align: left;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 15px;
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #eef2f7;
+            transition: background-color 0.2s;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        tbody tr:hover {
+            background-color: #f0e9ff;
+        }
+
+        td {
+            padding: 15px;
+            color: var(--text-primary);
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .edit, .delete {
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+        }
+
+        .edit {
+            background-color: var(--blue-secondary);
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .edit:hover {
+            background-color: var(--blue-dark);
+            transform: translateY(-2px);
+        }
+
+        .delete {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .delete:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+        }
+
+        .no-records {
+            text-align: center;
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 18px;
+        }
+
+        .no-records i {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #95a5a6;
+        }
+
+        .message {
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+            font-size: 0.95em;
+        }
+
+        .message.success {
+            background-color: var(--success-bg);
+            color: var(--success-text);
+            border: 1px solid #A7F3D0;
+        }
+
+        .message.error {
+            background-color: var(--error-bg);
+            color: var(--error-text);
+            border: 1px solid #FECACA;
+        }
+
+        .navigation-links {
+            text-align: center;
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .navigation-links a {
+            background-color: var(--blue-secondary);
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            font-size: 0.95em;
+            display: inline-block;
+        }
+
+        .navigation-links a:hover {
+            background-color: var(--blue-dark);
+            text-decoration: none;
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 992px) {
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            .main-title {
+                font-size: 2.2em;
+            }
+            .main-subtitle {
+                font-size: 1em;
+                margin-bottom: 30px;
+            }
+            .actions {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .edit, .delete {
+                width: 100%;
+                justify-content: center;
+            }
+            .navigation-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-title {
+                font-size: 1.8em;
+            }
+            .main-subtitle {
+                font-size: 0.9em;
+            }
+            .container {
+                padding: 20px;
+                border-radius: 12px;
+            }
+            .add-new-button, .navigation-links a {
+                font-size: 0.95em;
+                padding: 12px 15px;
+            }
+            .navigation-links {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-title">Sistema de Gestión de Horarios</div>
+<div class="main-subtitle">Administra los horarios de tus empleados fácilmente.</div>
+
+<div class="container">
+    <h1>Lista de Horarios</h1>
+
+    <div th:if="${mensaje}" class="message success">
+        <p th:text="${mensaje}"></p>
+    </div>
+    <div th:if="${error}" class="message error">
+        <p th:text="${error}"></p>
+    </div>
+
+    <a th:href="@{/horarios/registro}" class="add-new-button">
+        <i class="fas fa-plus-circle"></i> Registrar Nuevo Horario
+    </a>
+
+    <div class="table-container">
+        <table th:if="${not #lists.isEmpty(horarios)}">
+            <thead>
+            <tr>
+                <th>ID Horario</th>
+                <th>Cédula Empleado</th>
+                <th>Nombres Empleado</th>
+                <th>Día</th>
+                <th>Hora Entrada</th>
+                <th>Hora Salida</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="horario : ${horarios}">
+                <td th:text="${horario.id_Horario}"></td>
+                <td th:text="${horario.empleado.cedula}"></td>
+                <td th:text="${horario.empleado.nombres}"></td>
+                <td th:text="${horario.diaSemana}"></td>
+                <td th:text="${horario.horaEntrada}"></td>
+                <td th:text="${horario.horaSalida}"></td>
+                <td class="actions">
+                    <a th:href="@{/horarios/editar/{id}(id=${horario.id_Horario})}" class="edit">
+                        <i class="fas fa-edit"></i> Editar
+                    </a>
+                    <form th:action="@{/horarios/eliminar/{id}(id=${horario.id_Horario})}" method="post" style="display:inline;">
+                        <button type="submit" class="delete" onclick="return confirm('¿Estás seguro de que quieres eliminar este horario?');">
+                            <i class="fas fa-trash-alt"></i> Eliminar
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:if="${#lists.isEmpty(horarios)}" class="no-records">
+        <i class="fas fa-calendar-alt"></i>
+        <p>No hay horarios registrados. ¡Empieza añadiendo uno!</p>
+    </div>
+
+    <div class="navigation-links">
+        <a href="/">Volver al Inicio</a>
+        <a href="/empleados/lista">Ver Empleados</a>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('.delete').forEach(button => {
+        button.addEventListener('click', function(e) {
+            if (!confirm('¿Estás seguro de que quieres eliminar este horario? Esta acción no se puede deshacer.')) {
+                e.preventDefault();
+            }
+        });
+    });
+</script>
+</body>
+</html>

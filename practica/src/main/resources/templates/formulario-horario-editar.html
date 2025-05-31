@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Horario | Mi Restaurante</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght=700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --purple-primary: #6D28D9;
+            --purple-dark: #5B21B6;
+            --purple-darker: #4C1D95;
+            --blue-secondary: #3B82F6;
+            --blue-dark: #2563EB;
+            --text-primary: #1F2937;
+            --text-secondary: #4B5563;
+            --bg-page: #F3F4F6;
+            --bg-card: #FFFFFF;
+            --border-color: #D1D5DB;
+            --success-bg: #D1FAE5;
+            --success-text: #065F46;
+            --error-bg: #FEE2E2;
+            --error-text: #991B1B;
+            --table-header-bg: #6D28D9;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            background-color: var(--bg-page);
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding-top: 40px;
+            padding-bottom: 40px;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+
+        .main-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8em;
+            font-weight: 700;
+            color: var(--purple-primary);
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .main-subtitle {
+            font-size: 1.1em;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 40px;
+            max-width: 500px;
+        }
+
+        .container {
+            background-color: var(--bg-card);
+            padding: 30px 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 6px 10px rgba(0,0,0,0.06);
+            width: 100%;
+            max-width: 700px; /* Consistent with register form */
+            box-sizing: border-box;
+        }
+
+        .container h1 {
+            font-family: 'Montserrat', sans-serif;
+            text-align: center;
+            color: var(--purple-primary);
+            margin-bottom: 30px;
+            font-size: 1.8em;
+            font-weight: 600;
+        }
+
+        .message {
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+            font-size: 0.95em;
+        }
+
+        .message.success {
+            background-color: var(--success-bg);
+            color: var(--success-text);
+            border: 1px solid #A7F3D0;
+        }
+
+        .message.error {
+            background-color: var(--error-bg);
+            color: var(--error-text);
+            border: 1px solid #FECACA;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 1.05em;
+        }
+
+        input[type="text"],
+        input[type="time"],
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1em;
+            color: var(--text-primary);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="time"]:focus,
+        select:focus {
+            outline: none;
+            border-color: var(--blue-secondary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+        }
+
+        button[type="submit"] {
+            background-color: var(--blue-secondary); /* Changed to blue for edit action */
+            color: white;
+            padding: 14px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1.1em;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: var(--blue-dark); /* Darker blue on hover */
+            transform: translateY(-2px);
+        }
+
+        .error-message {
+            color: var(--error-text);
+            font-size: 0.9em;
+            margin-top: 8px;
+            background-color: var(--error-bg);
+            padding: 8px 12px;
+            border-radius: 6px;
+            border: 1px solid #FECACA;
+            display: block;
+        }
+
+        .navigation-links {
+            text-align: center;
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .navigation-links a {
+            background-color: var(--blue-secondary);
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            font-size: 0.95em;
+            display: inline-block;
+        }
+
+        .navigation-links a:hover {
+            background-color: var(--blue-dark);
+            text-decoration: none;
+            transform: translateY(-1px);
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            .main-title {
+                font-size: 2.2em;
+            }
+            .main-subtitle {
+                font-size: 1em;
+                margin-bottom: 30px;
+            }
+            button[type="submit"] {
+                font-size: 1em;
+                padding: 12px 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-title {
+                font-size: 1.8em;
+            }
+            .main-subtitle {
+                font-size: 0.9em;
+            }
+            .container {
+                padding: 20px;
+                border-radius: 12px;
+            }
+            .navigation-links {
+                flex-direction: column;
+                align-items: center;
+            }
+            .navigation-links a {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="main-title">Sistema de Gestión de Horarios</div>
+<div class="main-subtitle">Actualiza los detalles del horario existente.</div>
+
+<div class="container">
+    <h1>Editar Horario</h1>
+
+    <div th:if="${mensaje}" class="message success">
+        <p th:text="${mensaje}"></p>
+    </div>
+    <div th:if="${error}" class="message error">
+        <p th:text="${error}"></p>
+    </div>
+
+    <form th:action="@{/horarios/editar/{id}(id=${horario.idHorario})}" th:object="${horario}" method="post">
+        <input type="hidden" th:field="*{idHorario}" />
+
+        <div class="form-group">
+            <label for="cedulaEmpleado"><i class="fas fa-user"></i> Empleado (Cédula):</label>
+            <select id="cedulaEmpleado" th:field="*{cedulaEmpleado}" required>
+                <option th:each="empleado : ${empleados}"
+                        th:value="${empleado.cedula}"
+                        th:text="${empleado.nombres + ' (' + empleado.cedula + ')'}">Nombre Empleado (Cédula)</option>
+            </select>
+            <p th:if="${#fields.hasErrors('cedulaEmpleado')}" th:errors="*{cedulaEmpleado}" class="error-message"></p>
+        </div>
+
+        <div class="form-group">
+            <label for="dia"><i class="fas fa-calendar-day"></i> Día de la Semana:</label>
+            <select id="dia" th:field="*{dia}" required>
+                <option th:each="d : ${diasSemana}" th:value="${d}" th:text="${d}"></option>
+            </select>
+            <p th:if="${#fields.hasErrors('dia')}" th:errors="*{dia}" class="error-message"></p>
+        </div>
+
+        <div class="form-group">
+            <label for="horaEntrada"><i class="fas fa-clock"></i> Hora de Entrada:</label>
+            <input type="time" id="horaEntrada" th:field="*{horaEntrada}" required>
+            <p th:if="${#fields.hasErrors('horaEntrada')}" th:errors="*{horaEntrada}" class="error-message"></p>
+        </div>
+
+        <div class="form-group">
+            <label for="horaSalida"><i class="fas fa-clock"></i> Hora de Salida:</label>
+            <input type="time" id="horaSalida" th:field="*{horaSalida}" required>
+            <p th:if="${#fields.hasErrors('horaSalida')}" th:errors="*{horaSalida}" class="error-message"></p>
+        </div>
+
+        <button type="submit">
+            <i class="fas fa-sync-alt"></i> Actualizar Horario
+        </button>
+    </form>
+
+    <div class="navigation-links">
+        <a th:href="@{/horarios/lista}">Volver a la lista de Horarios</a>
+        <a th:href="@{/}">Ir a Inicio</a>
+    </div>
+</div>
+
+</body>
+</html>

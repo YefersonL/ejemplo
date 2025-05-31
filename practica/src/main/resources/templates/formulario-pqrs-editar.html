@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar PQRS | Mi Restaurante</title>
+    <title>Editar Horario | Mi Restaurante</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -88,8 +88,8 @@
         }
 
         input[type="text"],
-        textarea,
-        input[type="date"] {
+        input[type="time"],
+        select { /* Added select for diaSemana */
             width: 100%;
             padding: 12px 15px;
             box-sizing: border-box;
@@ -101,14 +101,10 @@
             transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
-        textarea {
-            resize: vertical;
-            min-height: 100px;
-        }
-
+        /* Adjusted focus styles for time inputs and select */
         input[type="text"]:focus,
-        textarea:focus,
-        input[type="date"]:focus {
+        input[type="time"]:focus,
+        select:focus {
             border-color: var(--purple-primary);
             outline: none;
             box-shadow: 0 0 0 3px var(--border-focus-shadow);
@@ -230,11 +226,11 @@
 </head>
 <body>
 
-    <div class="main-title">Sistema de PQRS</div>
-    <div class="main-subtitle">Edita las peticiones, quejas, reclamos y sugerencias de tu restaurante</div>
+    <div class="main-title">Gestión de Horarios</div>
+    <div class="main-subtitle">Edita los horarios de trabajo de tus empleados</div>
 
     <div class="container">
-        <h1>Editar PQRS</h1>
+        <h1>Editar Horario</h1>
 
         <div th:if="${mensaje}" class="message success">
             <p th:text="${mensaje}"></p>
@@ -243,37 +239,46 @@
             <p th:text="${error}"></p>
         </div>
 
-        <form th:action="@{/pqrs/actualizar/{id}(id=${pqrsId})}" th:object="${datosFormularioPQRS}" method="post">
+        <form th:action="@{/horarios/actualizar/{id}(id=${horario.id})}" th:object="${horario}" method="post">
             <div class="form-group">
-                <label for="idSolicitud">ID Solicitud:</label>
-                <input type="text" id="idSolicitud" th:value="${pqrsId}" disabled>
+                <label for="idHorario">ID Horario:</label>
+                <input type="text" id="idHorario" th:field="*{id}" disabled>
             </div>
 
             <div class="form-group">
-                <label for="rut">RUT del Restaurante:</label>
-                <input type="text" id="rut" th:field="*{rut}" required>
+                <label for="cedulaEmpleado">Cédula del Empleado:</label>
+                <input type="text" id="cedulaEmpleado" th:field="*{empleado.cedula}" required>
             </div>
 
             <div class="form-group">
-                <label for="tipoSolicitud">Tipo de Solicitud:</label>
-                <input type="text" id="tipoSolicitud" th:field="*{tipoSolicitud}" required>
+                <label for="diaSemana">Día de la Semana:</label>
+                <select id="diaSemana" th:field="*{diaSemana}" required>
+                    <option value="">Seleccione un día</option>
+                    <option value="Lunes">Lunes</option>
+                    <option value="Martes">Martes</option>
+                    <option value="Miércoles">Miércoles</option>
+                    <option value="Jueves">Jueves</option>
+                    <option value="Viernes">Viernes</option>
+                    <option value="Sábado">Sábado</option>
+                    <option value="Domingo">Domingo</option>
+                </select>
             </div>
 
             <div class="form-group">
-                <label for="descripcion">Descripción:</label>
-                <textarea id="descripcion" th:field="*{descripcion}" rows="4"></textarea>
+                <label for="horaInicio">Hora de Inicio:</label>
+                <input type="time" id="horaInicio" th:field="*{horaInicio}" required>
             </div>
 
             <div class="form-group">
-                <label for="fecha">Fecha:</label>
-                <input type="date" id="fecha" th:field="*{fecha}" required>
+                <label for="horaFin">Hora de Fin:</label>
+                <input type="time" id="horaFin" th:field="*{horaFin}" required>
             </div>
 
-            <button type="submit">Actualizar PQRS</button>
+            <button type="submit">Actualizar Horario</button>
         </form>
 
         <div class="navigation-links">
-            <a th:href="@{/pqrs/lista}">Volver a Lista de PQRS</a>
+            <a th:href="@{/horarios/lista}">Volver a Lista de Horarios</a>
             <a th:href="@{/}">Ir a Inicio</a>
         </div>
     </div>
