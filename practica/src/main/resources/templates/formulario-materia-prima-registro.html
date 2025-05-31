@@ -3,61 +3,258 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Materia Prima</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <title>Registro de Materia Prima | Mi Restaurante</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: 'Montserrat', sans-serif; margin: 0; background-color: #f8f8f8; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; color: #333; }
-        .header { width: 100%; padding: 15px 0; background-color: #4CAF50; color: white; text-align: center; font-family: 'Playfair Display', serif; font-size: 2.2em; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); margin-bottom: 30px; }
-        .container { background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); max-width: 500px; width: 100%; box-sizing: border-box; }
-        h1 { color: #333; text-align: center; margin-bottom: 25px; font-family: 'Playfair Display', serif; }
-        .message { padding: 10px; margin-bottom: 15px; border-radius: 5px; text-align: center; font-weight: 600; }
-        .message.success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .message.error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 8px; font-weight: 600; color: #555; }
-        input[type="text"] { width: calc(100% - 20px); padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; font-size: 1em; }
-        button { background-color: #4CAF50; color: white; padding: 12px 20px; border: none; border-radius: 5px; cursor: pointer; width: 100%; font-size: 1.1em; font-weight: 600; transition: background-color 0.3s ease; margin-top: 15px; }
-        button:hover { background-color: #45a049; }
-        .navigation-links { text-align: center; margin-top: 20px; }
-        .navigation-links a { display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; margin: 0 10px; transition: background-color 0.3s ease; }
-        .navigation-links a:hover { background-color: #0056b3; }
+        :root {
+            --purple-primary: #6D28D9; /* Púrpura principal */
+            --purple-dark: #5B21B6;
+            --purple-darker: #4C1D95;
+            --blue-secondary: #3B82F6; /* Azul para botones secundarios/links */
+            --blue-dark: #2563EB;
+            --text-primary: #1F2937; /* Gris oscuro para texto */
+            --text-secondary: #4B5563;
+            --bg-page: #F3F4F6; /* Fondo de página gris muy claro */
+            --bg-card: #FFFFFF;
+            --border-color: #D1D5DB;
+            --border-focus-shadow: rgba(109, 40, 217, 0.25);
+            --success-bg: #D1FAE5; /* Un verde pastel para éxito */
+            --success-text: #065F46;
+            --error-bg: #FEE2E2; /* Un rojo pastel para error */
+            --error-text: #991B1B;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            background-color: var(--bg-page);
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding-top: 40px;
+            padding-bottom: 40px;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+
+        .main-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8em;
+            font-weight: 700;
+            color: var(--purple-primary);
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .main-subtitle {
+            font-size: 1.1em;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 40px;
+            max-width: 500px;
+        }
+
+        .container {
+            background-color: var(--bg-card);
+            padding: 30px 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 6px 10px rgba(0,0,0,0.06);
+            width: 100%;
+            max-width: 600px;
+            box-sizing: border-box;
+        }
+
+        .container h1 {
+            font-family: 'Montserrat', sans-serif;
+            text-align: center;
+            color: var(--purple-primary);
+            margin-bottom: 30px;
+            font-size: 1.8em;
+            font-weight: 600;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 0.9em;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            box-sizing: border-box;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-primary);
+            transition: border-color 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        input[type="text"]:focus {
+            border-color: var(--purple-primary);
+            outline: none;
+            box-shadow: 0 0 0 3px var(--border-focus-shadow);
+        }
+
+        button[type="submit"] {
+            background-color: var(--purple-primary);
+            color: white;
+            padding: 14px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.05em;
+            font-weight: 600;
+            width: 100%;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            letter-spacing: 0.5px;
+            margin-top: 10px;
+        }
+
+        button[type="submit"]:hover {
+            background-color: var(--purple-dark);
+            transform: translateY(-1px);
+        }
+
+        button[type="submit"]:active {
+            background-color: var(--purple-darker);
+            transform: translateY(0);
+        }
+
+        .navigation-links {
+            text-align: center;
+            margin-top: 30px;
+            display: flex; /* Use flexbox for spacing */
+            gap: 15px; /* Gap between links */
+            justify-content: center; /* Center the links */
+        }
+
+        .navigation-links a {
+            background-color: var(--blue-secondary);
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            font-size: 0.95em;
+            display: inline-block; /* Essential for padding/margin */
+        }
+
+        .navigation-links a:hover {
+            background-color: var(--blue-dark);
+            text-decoration: none; /* Remove underline on hover */
+            transform: translateY(-1px);
+        }
+
+        .message {
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+            font-size: 0.95em;
+        }
+
+        .message.success {
+            background-color: var(--success-bg);
+            color: var(--success-text);
+            border: 1px solid #A7F3D0;
+        }
+
+        .message.error {
+            background-color: var(--error-bg);
+            color: var(--error-text);
+            border: 1px solid #FECACA;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-top: 20px;
+            }
+            .main-title {
+                font-size: 2.2em;
+            }
+            .main-subtitle {
+                font-size: 1em;
+                margin-bottom: 30px;
+            }
+            .container {
+                padding: 25px 30px;
+                max-width: 90%;
+                margin-top: 0;
+            }
+            .container h1 {
+                font-size: 1.6em;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-title {
+                font-size: 1.8em;
+            }
+            .main-subtitle {
+                font-size: 0.9em;
+            }
+            .container {
+                padding: 20px;
+                border-radius: 12px;
+            }
+            button[type="submit"], .navigation-links a {
+                font-size: 0.95em;
+                padding: 12px 15px;
+            }
+            .navigation-links {
+                flex-direction: column; /* Stack links vertically */
+            }
+        }
     </style>
 </head>
 <body>
-<div class="header">
-    <h1>Gestión de Restaurante</h1>
-</div>
 
-<div class="container">
-    <h1>Registrar Nueva Materia Prima</h1>
+    <div class="main-title">Sistema de Gestión de Restaurantes</div>
+    <div class="main-subtitle">Registra nuevas materias primas para tus platos.</div>
 
-    <div th:if="${mensaje}" class="message success">
-        <p th:text="${mensaje}"></p>
-    </div>
-    <div th:if="${error}" class="message error">
-        <p th:text="${error}"></p>
-    </div>
+    <div class="container">
+        <h1>Registrar Nueva Materia Prima</h1>
 
-    <form th:action="@{/materias-primas/guardar}" th:object="${datosFormularioMateriaPrima}" method="post">
-        <div class="form-group">
-            <label for="nombre">Nombre de la Materia Prima:</label>
-            <input type="text" id="nombre" th:field="*{nombre}" required placeholder="Ej: Harina de Trigo">
-            <p th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" class="message error"></p>
+        <div th:if="${mensaje}" class="message success">
+            <p th:text="${mensaje}"></p>
+        </div>
+        <div th:if="${error}" class="message error">
+            <p th:text="${error}"></p>
         </div>
 
-        <div class="form-group">
-            <label for="unidadMedida">Unidad de Medida:</label>
-            <input type="text" id="unidadMedida" th:field="*{unidadMedida}" required placeholder="Ej: gramos, litros, unidades">
-            <p th:if="${#fields.hasErrors('unidadMedida')}" th:errors="*{unidadMedida}" class="message error"></p>
+        <form th:action="@{/materias-primas/guardar}" th:object="${datosFormularioMateriaPrima}" method="post">
+            <div class="form-group">
+                <label for="nombre">Nombre de la Materia Prima:</label>
+                <input type="text" id="nombre" th:field="*{nombre}" required placeholder="Ej: Harina de Trigo">
+                <p th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}" class="message error"></p>
+            </div>
+
+            <div class="form-group">
+                <label for="unidadMedida">Unidad de Medida:</label>
+                <input type="text" id="unidadMedida" th:field="*{unidadMedida}" required placeholder="Ej: gramos, litros, unidades">
+                <p th:if="${#fields.hasErrors('unidadMedida')}" th:errors="*{unidadMedida}" class="message error"></p>
+            </div>
+
+            <button type="submit">Registrar Materia Prima</button>
+        </form>
+
+        <div class="navigation-links">
+            <a th:href="@{/materias-primas/lista}">Ver Materias Primas</a>
+            <a th:href="@{/}">Ir a Inicio</a>
         </div>
-
-        <button type="submit">Registrar Materia Prima</button>
-    </form>
-
-    <div class="navigation-links">
-        <a th:href="@{/materias-primas/lista}">Ver Materias Primas</a>
-        <a th:href="@{/}">Ir a Inicio</a>
     </div>
-</div>
+
 </body>
 </html>
