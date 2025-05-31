@@ -3,37 +3,315 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventario de Materias Primas</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <title>Inventario de Materias Primas | Mi Restaurante</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body { font-family: 'Montserrat', sans-serif; margin: 0; background-color: #f8f8f8; display: flex; flex-direction: column; justify-content: center; align-items: center; min-height: 100vh; color: #333; }
-        .header { width: 100%; padding: 15px 0; background-color: #4CAF50; color: white; text-align: center; font-family: 'Playfair Display', serif; font-size: 2.2em; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); margin-bottom: 30px; }
-        .container { background-color: white; padding: 30px; border-radius: 10px; box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); max-width: 1000px; width: 100%; box-sizing: border-box; }
-        h1 { color: #333; text-align: center; margin-bottom: 25px; font-family: 'Playfair Display', serif; }
-        .message { padding: 10px; margin-bottom: 15px; border-radius: 5px; text-align: center; font-weight: 600; }
-        .message.success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .message.error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-        th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
-        th { background-color: #e0e0e0; color: #555; }
-        tr:nth-child(even) { background-color: #f2f2f2; }
-        tr:hover { background-color: #e6e6e6; }
-        .acciones { display: flex; gap: 8px; justify-content: center; }
-        .acciones button, .acciones a button { padding: 8px 14px; font-size: 0.9em; border-radius: 5px; cursor: pointer; border: none; transition: background-color 0.3s ease; }
-        .acciones button.editar { background-color: #28a745; color: white; }
-        .acciones button.editar:hover { background-color: #218838; }
-        .acciones button.eliminar { background-color: #dc3545; color: white; }
-        .acciones button.eliminar:hover { background-color: #c82333; }
-        .navigation-links { text-align: center; margin-top: 30px; }
-        .navigation-links a { display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; margin: 0 10px; transition: background-color 0.3s ease; }
-        .navigation-links a:hover { background-color: #0056b3; }
-        p { text-align: center; color: #777; margin-top: 20px; }
+        :root {
+            --purple-primary: #6D28D9;
+            --purple-dark: #5B21B6;
+            --purple-darker: #4C1D95;
+            --blue-secondary: #3B82F6;
+            --blue-dark: #2563EB;
+            --text-primary: #1F2937;
+            --text-secondary: #4B5563;
+            --bg-page: #F3F4F6;
+            --bg-card: #FFFFFF;
+            --border-color: #D1D5DB;
+            --success-bg: #D1FAE5;
+            --success-text: #065F46;
+            --error-bg: #FEE2E2;
+            --error-text: #991B1B;
+            --table-header-bg: #6D28D9; /* Changed to match PQRS */
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            background-color: var(--bg-page);
+            color: var(--text-primary);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding-top: 40px;
+            padding-bottom: 40px;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+
+        .main-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.8em;
+            font-weight: 700;
+            color: var(--purple-primary);
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .main-subtitle {
+            font-size: 1.1em;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 40px;
+            max-width: 500px; /* Changed to match PQRS */
+        }
+
+        .container {
+            background-color: var(--bg-card);
+            padding: 30px 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 6px 10px rgba(0,0,0,0.06);
+            width: 100%;
+            max-width: 1200px; /* Changed to match PQRS */
+            box-sizing: border-box;
+        }
+
+        .container h1 {
+            font-family: 'Montserrat', sans-serif;
+            text-align: center;
+            color: var(--purple-primary);
+            margin-bottom: 30px;
+            font-size: 1.8em;
+            font-weight: 600;
+        }
+
+        /* Renamed from .add-button-container to .add-new-button for consistency with PQRS */
+        .add-new-button {
+            display: inline-block;
+            background-color: var(--purple-primary); /* Changed to match PQRS */
+            color: white;
+            text-decoration: none;
+            padding: 14px 25px; /* Changed to match PQRS */
+            border-radius: 8px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            font-size: 16px; /* Changed to match PQRS */
+        }
+
+        .add-new-button:hover {
+            background-color: var(--purple-dark); /* Changed to match PQRS */
+            transform: translateY(-2px); /* Changed to match PQRS */
+        }
+
+        .add-new-button i {
+            margin-right: 8px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            border-radius: 10px; /* Changed to match PQRS */
+            margin-bottom: 25px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03); /* Changed to match PQRS */
+            border: 1px solid var(--border-color);
+        }
+
+        table { /* Changed from .data-table to table for consistency with PQRS */
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        thead {
+            background: linear-gradient(90deg, var(--purple-primary) 0%, var(--purple-dark) 100%); /* Changed to match PQRS */
+            color: white;
+        }
+
+        th {
+            padding: 16px 15px; /* Changed to match PQRS */
+            text-align: left;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 15px; /* Changed to match PQRS */
+        }
+
+        tbody tr {
+            border-bottom: 1px solid #eef2f7; /* Changed to match PQRS */
+            transition: background-color 0.2s;
+        }
+
+        tbody tr:nth-child(even) { /* Added to match PQRS */
+            background-color: #f8fafc;
+        }
+
+        tbody tr:hover {
+            background-color: #f0e9ff; /* Changed to match PQRS */
+        }
+
+        td {
+            padding: 15px; /* Changed to match PQRS */
+            color: var(--text-primary);
+        }
+
+        .actions { /* Renamed from .acciones to .actions for consistency with PQRS */
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap; /* Added for consistency with PQRS */
+        }
+
+        .edit, .delete { /* Combined styles for consistency with PQRS */
+            padding: 8px 15px; /* Changed to match PQRS */
+            border-radius: 5px; /* Changed to match PQRS */
+            font-weight: 500;
+            font-size: 14px; /* Changed to match PQRS */
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            border: none; /* Added to match PQRS */
+            cursor: pointer; /* Added to match PQRS */
+        }
+
+        .edit {
+            background-color: var(--blue-secondary); /* Changed to match PQRS */
+            color: white;
+        }
+
+        .edit:hover {
+            background-color: var(--blue-dark); /* Changed to match PQRS */
+            transform: translateY(-2px); /* Changed to match PQRS */
+        }
+
+        .delete {
+            background-color: #e74c3c; /* Changed to match PQRS */
+            color: white;
+            font-family: 'Montserrat', sans-serif; /* Added to match PQRS */
+        }
+
+        .delete:hover {
+            background-color: #c0392b; /* Changed to match PQRS */
+            transform: translateY(-2px); /* Changed to match PQRS */
+        }
+
+        .no-records {
+            text-align: center;
+            margin-top: 20px; /* Changed to match PQRS */
+            padding: 20px; /* Added to match PQRS */
+            background: #f8fafc; /* Added to match PQRS */
+            border-radius: 8px; /* Added to match PQRS */
+            color: var(--text-secondary);
+            font-size: 18px; /* Changed to match PQRS */
+        }
+
+        .no-records i {
+            font-size: 24px; /* Changed to match PQRS */
+            margin-bottom: 10px; /* Changed to match PQRS */
+            color: #95a5a6; /* Changed to match PQRS */
+        }
+
+        .message {
+            padding: 12px 15px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 500;
+            font-size: 0.95em;
+        }
+
+        .message.success {
+            background-color: var(--success-bg);
+            color: var(--success-text);
+            border: 1px solid #A7F3D0;
+        }
+
+        .message.error {
+            background-color: var(--error-bg);
+            color: var(--error-text);
+            border: 1px solid #FECACA;
+        }
+
+        .navigation-links {
+            text-align: center;
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .navigation-links a {
+            background-color: var(--blue-secondary);
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            font-size: 0.95em;
+            display: inline-block;
+        }
+
+        .navigation-links a:hover {
+            background-color: var(--blue-dark);
+            text-decoration: none;
+            transform: translateY(-1px);
+        }
+
+        @media (max-width: 992px) { /* Added to match PQRS */
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px; /* Changed to match PQRS */
+            }
+            .main-title {
+                font-size: 2.2em;
+            }
+            .main-subtitle {
+                font-size: 1em;
+                margin-bottom: 30px;
+            }
+            .actions { /* Changed to match PQRS */
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .edit, .delete { /* Changed to match PQRS */
+                width: 100%;
+                justify-content: center;
+            }
+            .navigation-links {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-title {
+                font-size: 1.8em;
+            }
+            .main-subtitle {
+                font-size: 0.9em;
+            }
+            .container {
+                padding: 20px;
+                border-radius: 12px;
+            }
+            .add-new-button, .navigation-links a { /* Changed from .add-button to .add-new-button for consistency */
+                font-size: 0.95em;
+                padding: 12px 15px;
+            }
+            .navigation-links {
+                flex-direction: column;
+            }
+        }
     </style>
 </head>
 <body>
-<div class="header">
-    <h1>Gestión de Restaurante</h1>
-</div>
+
+<div class="main-title">Gestión de Inventario</div>
+<div class="main-subtitle">Lista de todas las materias primas registradas en tu restaurante. Aquí puedes ver, editar o eliminar entradas.</div>
 
 <div class="container">
     <h1>Inventario de Materias Primas</h1>
@@ -45,10 +323,14 @@
         <p th:text="${error}"></p>
     </div>
 
-    <table th:if="${not #lists.isEmpty(inventario)}" border="1">
-        <thead>
+    <a th:href="@{/inventario-materias-primas/registro}" class="add-new-button">
+        <i class="fas fa-plus-circle"></i> Añadir Nueva Entrada
+    </a>
+
+    <div th:if="${!inventario.isEmpty()}" class="table-container">
+        <table class="data-table"> <thead>
         <tr>
-            <th>ID Entrada</th>
+            <th>ID</th>
             <th>Materia Prima</th>
             <th>Cantidad Disponible</th>
             <th>Unidad de Medida</th>
@@ -56,34 +338,44 @@
             <th>Acciones</th>
         </tr>
         </thead>
-        <tbody>
-        <tr th:each="inv : ${inventario}">
-            <td th:text="${inv.idInventarioMateriaPrima}"></td>
-            <td th:text="${inv.materiaPrima.nombre}"></td>
-            <td th:text="${#numbers.formatDecimal(inv.cantidadDisponible, 1, 2)}"></td>
-            <td th:text="${inv.materiaPrima.unidadMedida}"></td>
-            <td th:text="${#temporals.format(inv.fechaUltimaActualizacion, 'dd/MM/yyyy HH:mm')}"></td>
-            <td class="acciones">
-                <a th:href="@{/inventario-materias-primas/editar/{id}(id=${inv.idInventarioMateriaPrima})}">
-                    <button type="button" class="editar">Editar</button>
+            <tbody>
+            <tr th:each="inv : ${inventario}">
+                <td th:text="${inv.idInventarioMateriaPrima}"></td>
+                <td th:text="${inv.materiaPrima.nombre}"></td>
+                <td th:text="${#numbers.formatDecimal(inv.cantidadDisponible, 1, 2)}"></td>
+                <td th:text="${inv.materiaPrima.unidadMedida}"></td>
+                <td th:text="${#temporals.format(inv.fechaUltimaActualizacion, 'dd/MM/yyyy HH:mm')}"></td>
+                <td class="actions"> <a th:href="@{/inventario-materias-primas/editar/{id}(id=${inv.idInventarioMateriaPrima})}" class="edit">
+                    <i class="fas fa-edit"></i> Editar
                 </a>
-                <form th:action="@{/inventario-materias-primas/eliminar/{id}(id=${inv.idInventarioMateriaPrima})}" method="post" onsubmit="return confirm('¿Estás seguro de que quieres eliminar esta entrada de inventario?');">
-                    <button type="submit" class="eliminar">Eliminar</button>
-                </form>
-            </td>
-        </tr>
-        </tbody>
-    </table>
+                    <form th:action="@{/inventario-materias-primas/eliminar/{id}(id=${inv.idInventarioMateriaPrima})}" method="post" style="display:inline;"> <button type="submit" class="delete" onclick="return confirm('¿Estás seguro de que quieres eliminar esta entrada de inventario?');"> <i class="fas fa-trash-alt"></i> Eliminar
+                    </button>
+                    </form>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 
-    <div th:if="${inventario.isEmpty()}" style="text-align: center; margin-top: 30px;">
+    <div th:if="${inventario.isEmpty()}" class="no-records">
+        <i class="fas fa-inbox"></i>
         <p>No hay entradas de inventario registradas. ¡Empieza añadiendo una!</p>
     </div>
 
     <div class="navigation-links">
-        <a th:href="@{/inventario-materias-primas/registro}">Registrar Nueva Entrada de Inventario</a>
-        <a th:href="@{/inventario-materias-primas/lista}">Actualizar Lista</a>
+        <a th:href="@{/inventario-materias-primas/registro}">Ir a Registro de Inventario</a>
         <a th:href="@{/}">Ir a Inicio</a>
     </div>
 </div>
+
+<script>
+    document.querySelectorAll('.delete').forEach(button => {
+        button.addEventListener('click', function(e) {
+            if (!confirm('¿Estás seguro de que quieres eliminar esta entrada de inventario? Esta acción no se puede deshacer.')) {
+                e.preventDefault();
+            }
+        });
+    });
+</script>
 </body>
 </html>
