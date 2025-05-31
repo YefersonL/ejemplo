@@ -26,11 +26,14 @@
             border-radius: 15px;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
             text-align: center;
-            max-width: 600px;
+            max-width: 800px; /* Aumentado para acomodar más elementos */
             width: 90%;
             animation: fadeIn 1s ease-in-out;
             overflow-y: auto; /* Añadimos scroll vertical solo al contenedor si su contenido excede su altura */
-            max-height: 150vh; /* O un valor que consideres apropiado para dejar espacio para el navegador */
+            max-height: 90vh; /* Ajustado para mejor visualización */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         @keyframes fadeIn {
@@ -60,9 +63,10 @@
 
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Ajustado para 2 columnas principales */
             gap: 25px;
             margin-top: 30px;
+            width: 100%; /* Ocupa todo el ancho del contenedor */
         }
 
         .menu-item {
@@ -95,6 +99,7 @@
             font-size: 0.95em;
             color: #777;
             margin-bottom: 20px;
+            flex-grow: 1; /* Permite que la descripción ocupe el espacio disponible */
         }
 
         .menu-item .button-group {
@@ -103,6 +108,7 @@
             justify-content: center;
             gap: 10px;
             width: 100%;
+            margin-top: auto; /* Empuja el grupo de botones hacia abajo */
         }
 
         .menu-item .button-group a {
@@ -244,6 +250,15 @@
                 <div class="button-group">
                     <a th:href="@{/pqrs/lista}" class="manage-btn">Gestionar PQRS</a>
                     <a th:href="@{/pqrs/registro}">Registrar Nueva</a>
+                </div>
+            </div>
+
+            <div class="menu-item">
+                <h2>Nóminas</h2>
+                <p class="description">Administra el pago de nóminas de los empleados, incluyendo horas trabajadas y bonificaciones.</p>
+                <div class="button-group">
+                    <a th:href="@{/nominas/lista}" class="manage-btn">Gestionar Nóminas</a>
+                    <a th:href="@{/nominas/registro}">Registrar Nueva</a>
                 </div>
             </div>
             </div>
