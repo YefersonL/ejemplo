@@ -4,172 +4,318 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Platos | Mi Restaurante</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* (Tus estilos CSS existentes aquí) */
+        :root {
+            --purple-primary: #6D28D9;
+            --purple-dark: #5B21B6;
+            --purple-darker: #4C1D95;
+            --blue-secondary: #3B82F6;
+            --blue-dark: #2563EB;
+            --text-primary: #1F2937;
+            --text-secondary: #4B5563;
+            --bg-page: #F3F4F6;
+            --bg-card: #FFFFFF;
+            --border-color: #D1D5DB;
+            --success-bg: #D1FAE5;
+            --success-text: #065F46;
+            --error-bg: #FEE2E2;
+            --error-text: #991B1B;
+            --table-header-bg: #6D28D9; /* Using purple for table header */
+        }
+
         body {
             font-family: 'Montserrat', sans-serif;
             margin: 0;
-            background-color: #f8f8f8;
+            background-color: var(--bg-page);
+            color: var(--text-primary);
             display: flex;
             flex-direction: column;
-            justify-content: center;
             align-items: center;
             min-height: 100vh;
-            color: #333;
+            padding-top: 40px;
+            padding-bottom: 40px;
+            box-sizing: border-box;
+            overflow-y: auto;
         }
 
-        .header {
-            width: 100%;
-            padding: 15px 0;
-            background-color: #4CAF50;
-            color: white;
-            text-align: center;
+        .main-title {
             font-family: 'Playfair Display', serif;
-            font-size: 2.2em;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            margin-bottom: 30px;
+            font-size: 2.8em;
+            font-weight: 700;
+            color: var(--purple-primary);
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .main-subtitle {
+            font-size: 1.1em;
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 40px;
+            max-width: 500px;
         }
 
         .container {
-            background-color: #ffffff;
-            padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            background-color: var(--bg-card);
+            padding: 30px 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1), 0 6px 10px rgba(0,0,0,0.06);
             width: 100%;
-            max-width: 800px;
+            max-width: 1200px;
             box-sizing: border-box;
-            margin-bottom: 20px;
         }
 
-        h1 {
-            font-family: 'Playfair Display', serif;
+        .container h1 {
+            font-family: 'Montserrat', sans-serif;
             text-align: center;
-            color: #4CAF50;
+            color: var(--purple-primary);
             margin-bottom: 30px;
-            font-size: 2em;
+            font-size: 1.8em;
+            font-weight: 600;
+        }
+
+        .add-new-button {
+            display: inline-flex; /* Use flex to align icon and text */
+            align-items: center;
+            background-color: var(--purple-primary);
+            color: white;
+            text-decoration: none;
+            padding: 14px 25px;
+            border-radius: 8px;
+            font-weight: 600;
+            margin-bottom: 25px;
+            transition: all 0.3s ease;
+            letter-spacing: 0.5px;
+            border: none;
+            cursor: pointer;
+            text-align: center;
+            font-size: 16px;
+        }
+
+        .add-new-button:hover {
+            background-color: var(--purple-dark);
+            transform: translateY(-2px);
+        }
+
+        .add-new-button i {
+            margin-right: 8px;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+            border: 1px solid var(--border-color); /* Added border for the container */
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden; /* Ensures inner borders respect container radius */
         }
 
-        th, td {
-            border: 1px solid #ddd;
-            padding: 12px;
-            text-align: left;
+        thead {
+            background: linear-gradient(90deg, var(--purple-primary) 0%, var(--purple-dark) 100%);
+            color: white;
         }
 
         th {
-            background-color: #f2f2f2;
+            padding: 16px 15px;
+            text-align: left;
             font-weight: 600;
-            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 15px;
         }
 
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
+        tbody tr {
+            border-bottom: 1px solid #eef2f7; /* Lighter border for rows */
+            transition: background-color 0.2s;
         }
 
-        tr:hover {
-            background-color: #f1f1f1;
+        tbody tr:nth-child(even) {
+            background-color: #f8fafc; /* Subtle alternating row color */
         }
 
-        .acciones {
+        tbody tr:hover {
+            background-color: #f0e9ff; /* Light purple on hover */
+        }
+
+        td {
+            padding: 15px;
+            color: var(--text-primary);
+        }
+
+        .actions {
             display: flex;
             gap: 10px;
+            flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
         }
 
-        .acciones button {
-            padding: 8px 12px;
-            font-size: 0.9em;
+        .edit, .delete {
+            padding: 8px 15px;
             border-radius: 5px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: all 0.2s ease;
+            display: inline-flex; /* Use flex to align icon and text in buttons */
+            align-items: center;
+            text-decoration: none; /* Remove underline for anchor buttons */
+        }
+
+        .edit {
+            background-color: var(--blue-secondary);
+            color: white;
+            border: none;
             cursor: pointer;
-            transition: background-color 0.3s ease;
-            width: auto;
         }
 
-        .acciones button.eliminar {
-            background-color: #dc3545;
+        .edit:hover {
+            background-color: var(--blue-dark);
+            transform: translateY(-2px);
+        }
+
+        .delete {
+            background-color: #e74c3c; /* Red for delete */
             color: white;
+            border: none;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif; /* Ensure consistent font */
         }
 
-        .acciones button.eliminar:hover {
-            background-color: #c82333;
+        .delete:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
         }
 
-        .acciones button.editar {
-            background-color: #007bff;
-            color: white;
+        .no-records {
+            text-align: center;
+            margin-top: 20px;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 8px;
+            color: var(--text-secondary);
+            font-size: 18px;
+            border: 1px dashed var(--border-color); /* Added dashed border for visual cue */
         }
 
-        .acciones button.editar:hover {
-            background-color: #0056b3;
+        .no-records i {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: #95a5a6;
+            display: block; /* Ensure icon is on its own line */
         }
 
         .message {
-            padding: 10px;
+            padding: 12px 15px;
             margin-bottom: 20px;
-            border-radius: 5px;
+            border-radius: 8px;
             text-align: center;
-            font-weight: bold;
+            font-weight: 500;
+            font-size: 0.95em;
         }
 
         .message.success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
+            background-color: var(--success-bg);
+            color: var(--success-text);
+            border: 1px solid #A7F3D0;
         }
 
         .message.error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
+            background-color: var(--error-bg);
+            color: var(--error-text);
+            border: 1px solid #FECACA;
         }
 
         .navigation-links {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 30px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
         }
 
         .navigation-links a {
-            color: #4CAF50;
+            background-color: var(--blue-secondary);
+            color: white;
             text-decoration: none;
-            font-weight: 600;
-            margin: 0 10px;
-            transition: color 0.3s ease;
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 8px;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            font-size: 0.95em;
+            display: inline-block;
         }
 
         .navigation-links a:hover {
-            text-decoration: underline;
-            color: #3e8e41;
+            background-color: var(--blue-dark);
+            text-decoration: none;
+            transform: translateY(-1px);
+        }
+
+        /* Media Queries for Responsiveness */
+        @media (max-width: 992px) {
+            .table-container {
+                overflow-x: auto; /* Enable horizontal scroll for table */
+            }
+            table {
+                min-width: 700px; /* Ensure table doesn't get too squished */
+            }
         }
 
         @media (max-width: 768px) {
             .container {
-                max-width: 95%;
                 padding: 20px;
             }
-            th, td {
-                padding: 8px;
+            .main-title {
+                font-size: 2.2em;
+            }
+            .main-subtitle {
+                font-size: 1em;
+                margin-bottom: 30px;
+            }
+            .actions {
+                flex-direction: column; /* Stack buttons vertically */
+                align-items: flex-start;
+            }
+            .edit, .delete {
+                width: 100%; /* Make buttons full width in actions */
+                justify-content: center;
+            }
+            .navigation-links {
+                flex-direction: column; /* Stack navigation links vertically */
+                align-items: center;
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .main-title {
+                font-size: 1.8em;
+            }
+            .main-subtitle {
                 font-size: 0.9em;
             }
-            .acciones {
-                flex-direction: column;
-                gap: 5px;
+            .container {
+                padding: 20px;
+                border-radius: 12px;
             }
-            .acciones button {
-                width: 100%;
+            .add-new-button, .navigation-links a {
+                font-size: 0.95em;
+                padding: 12px 15px;
             }
         }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        Mi Restaurante
-    </div>
+    <div class="main-title">Sistema de Gestión de Platos</div>
+    <div class="main-subtitle">Lista de platos disponibles en tu menú.</div>
 
     <div class="container">
         <h1>Lista de Platos</h1>
@@ -181,41 +327,49 @@
             <p th:text="${error}"></p>
         </div>
 
-        <table th:if="${!platos.isEmpty()}">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Descripción</th>
-                    <th>Precio</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="plato : ${platos}">
-                    <td th:text="${plato.id}"></td>
-                    <td th:text="${plato.nombre_Plato}"></td>
-                    <td th:text="${plato.descripcion}"></td>
-                    <td th:text="${#numbers.formatDecimal(plato.precio, 1, 2)}"></td>
-                    <td class="acciones">
-                        <a th:href="@{/platos/editar/{id}(id=${plato.id})}">
-                            <button type="button" class="editar">Editar</button>
-                        </a>
-                        <form th:action="@{/platos/eliminar/{id}(id=${plato.id})}" method="post" onsubmit="return confirm('¿Estás seguro de que quieres eliminar este plato?');">
-                            <button type="submit" class="eliminar">Eliminar</button>
-                        </form>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+        <a th:href="@{/platos/registro}" class="add-new-button">
+            <i class="fas fa-plus-circle"></i> Registrar Nuevo Plato
+        </a>
 
-        <div th:if="${platos.isEmpty()}" style="text-align: center; margin-top: 30px;">
-            <p>No hay platos registrados. ¡Empieza añadiendo uno!</p>
+        <div class="table-container">
+            <table th:if="${!platos.isEmpty()}">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Precio</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="plato : ${platos}">
+                        <td th:text="${plato.id}"></td>
+                        <td th:text="${plato.nombre_Plato}"></td>
+                        <td th:text="${plato.descripcion}"></td>
+                        <td th:text="${#numbers.formatDecimal(plato.precio, 1, 2)}"></td>
+                        <td class="actions">
+                            <a th:href="@{/platos/editar/{id}(id=${plato.id})}" class="edit">
+                                <i class="fas fa-edit"></i> Editar
+                            </a>
+                            <form th:action="@{/platos/eliminar/{id}(id=${plato.id})}" method="post" style="display:inline;">
+                                <button type="submit" class="delete" onclick="return confirm('¿Estás seguro de que quieres eliminar este plato?');">
+                                    <i class="fas fa-trash-alt"></i> Eliminar
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+            
+        <div th:if="${platos.isEmpty()}" class="no-records">
+            <i class="fas fa-utensils"></i> <p>No hay platos registrados. ¡Empieza añadiendo uno!</p>
         </div>
 
         <div class="navigation-links">
-            <a th:href="@{/platos/registro}">Registrar Nuevo Plato</a> |
-            <a th:href="@{/platos/lista}">Actualizar Lista</a>
+            <a th:href="@{/platos/registro}">Registrar Nuevo Plato</a>
+            <a th:href="@{/}">Ir a Inicio</a>
         </div>
     </div>
 
