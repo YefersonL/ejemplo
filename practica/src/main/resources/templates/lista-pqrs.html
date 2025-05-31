@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de PQRS | Mi Restaurante</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <style>
+        /* ... (tus estilos existentes) ... */
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        Mi Restaurante
+    </div>
+
+    <div class="container">
+        <h1>Lista de PQRS</h1>
+
+        <div th:if="${mensaje}" class="message success">
+            <p th:text="${mensaje}"></p>
+        </div>
+        <div th:if="${error}" class="message error">
+            <p th:text="${error}"></p>
+        </div>
+
+        <a th:href="@{/pqrs/registro}" class="add-new-button">Registrar Nueva PQRS</a>
+
+        <table th:if="${!pqrsList.isEmpty()}">
+            <thead>
+                <tr>
+                    <th>ID Solicitud</th>
+                    <th>RUT del Restaurante</th> <th>Tipo de Solicitud</th>
+                    <th>Descripción</th>
+                    <th>Fecha</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="pqrs : ${pqrsList}">
+                    <td th:text="${pqrs.idSolicitud}"></td>
+                    <td th:text="${pqrs.restaurante.RUT}"></td> <td th:text="${pqrs.tipoSolicitud}"></td>
+                    <td th:text="${pqrs.descripcion}"></td>
+                    <td th:text="${#temporals.format(pqrs.fecha, 'dd-MM-yyyy')}"></td>
+                    <td class="actions">
+                        <a th:href="@{/pqrs/editar/{id}(id=${pqrs.idSolicitud})}" class="edit">Editar</a>
+                        <form th:action="@{/pqrs/eliminar/{id}(id=${pqrs.idSolicitud})}" method="post" style="display:inline;">
+                            <button type="submit" class="delete" onclick="return confirm('¿Estás seguro de que quieres eliminar esta PQRS?');">Eliminar</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <p th:if="${pqrsList.isEmpty()}" style="text-align: center; margin-top: 20px; color: #777;">No hay PQRS registradas.</p>
+
+        <div class="navigation-links">
+            <a th:href="@{/pqrs/registro}">Ir a Registro de PQRS</a> |
+            <a th:href="@{/}">Ir a Inicio</a>
+        </div>
+    </div>
+
+</body>
+</html>
